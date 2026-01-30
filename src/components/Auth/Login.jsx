@@ -36,7 +36,7 @@ function Login({ onLogin }) {
     <div className="login-container px-2 py-8 min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-400 to-purple-500">
       <div className="login-card w-full max-w-xs sm:max-w-md md:max-w-lg p-4 sm:p-8 rounded-2xl shadow-lg bg-white">
         <div className="login-header">
-          <h1>🎓 Smart Attendance</h1>
+          <h1>🎓 Attendify</h1>
           <p>AI-Powered Face Recognition System</p>
         </div>
 

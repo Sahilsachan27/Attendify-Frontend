@@ -9,14 +9,16 @@ export default function HeroSection() {
   return (
     <section className="hero-section" id="home">
       <div className="hero-content">
-        <div className="hero-badge">🎓 Smart Attendance System</div>
+        <div className="hero-badge">
+          🚀AI Smart Attendance System with Face Recognition
+        </div>
         <h1 className="hero-title">
-          Secure Attendance Tracking with
-          <span className="gradient-text"> Face Recognition</span>
+          Attendify
+          <span className="gradient-text"> AI Smart Attendance</span>
         </h1>
         <p className="hero-description">
-          Revolutionary attendance management system powered by AI face authentication
-          and geofencing technology. Say goodbye to proxy attendance and manual tracking.
+          Experience the future of attendance management with AI-powered face recognition 
+          and geo-fencing technology. Say goodbye to proxy attendance and manual marking.
         </p>
         <div className="hero-buttons">
           <button className="btn-hero-primary" onClick={() => navigate('/login')}>🚀 Get Started</button>

@@ -160,11 +160,11 @@ function AdminDashboard({ user, onLogout }) {
 
       {/* Mobile Fullscreen Menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 flex flex-col backdrop-blur-md bg-black/40">
+        <div className="fixed inset-0 z-50 flex flex-col backdrop-blur-md bg-black/30">
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-white/80 backdrop-blur-md">
             <div className="flex items-center gap-2">
-              <span className="text-2xl">✨</span>
-              <span className="font-bold text-lg text-gray-900">Admin Portal</span>
+              <span className="text-2xl">🛡️</span>
+              <span className="font-bold text-lg text-gray-900">Attendify Admin</span>
             </div>
             <button
               onClick={() => setMobileMenuOpen(false)}

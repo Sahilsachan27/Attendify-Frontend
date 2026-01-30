@@ -367,7 +367,7 @@ function MarkAttendance({ user }) {
         {/* Instructions */}
         <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4">
           <h3 className="text-sm font-bold text-blue-900 mb-2 flex items-center gap-2">
-            💡 Quick Tips for Successful Attendance
+            💡 Quick Tips for Successful Attendance with Attendify
           </h3>
           <ul className="space-y-1 text-xs text-blue-800">
             <li className="flex items-start gap-2">

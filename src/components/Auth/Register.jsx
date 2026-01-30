@@ -112,8 +112,8 @@ function Register() {
     <div className="login-container px-2 py-8 min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-400 to-purple-500">
       <div className="login-card w-full max-w-xs sm:max-w-md md:max-w-lg p-4 sm:p-8 rounded-2xl shadow-lg bg-white">
         <div className="login-header">
-          <h1>✍️ Student Registration</h1>
-          <p>Create your account and train your face model</p>
+          <h1>✍️ Attendify Registration</h1>
+          <p>Create your account and register your face</p>
         </div>
 
         {step === 1 && (

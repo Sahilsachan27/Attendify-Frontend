@@ -82,7 +82,7 @@ function LandingPage() {
                 display: 'inline-block',
               }}
             >
-              Smart Attendance
+              Attendify
             </span>
           </div>
           {/* Desktop nav links */}
@@ -170,7 +170,7 @@ function LandingPage() {
               <div className="flex items-center gap-2">
                 <span className="text-2xl">🎓</span>
                 <span className="font-semibold text-gray-800">
-                  Smart Attendance
+                  Attendify
                 </span>
               </div>
 
@@ -351,6 +351,19 @@ function LandingPage() {
           </div>
 
           <div className="step-arrow">→</div>
+          
+          <div className="step-card">
+            <div className="step-number">3</div>
+            <div className="step-icon">📸</div>
+            <h3>Scan Face</h3>
+            <p>
+              During attendance, scan your face live with webcam for instant
+              authentication
+            </p>
+          </div>
+          
+
+          <div className="step-arrow">→</div>
 
           <div className="step-card">
             <div className="step-number">2</div>
@@ -359,18 +372,6 @@ function LandingPage() {
             <p>
               System trains AI model with your face data using advanced machine
               learning algorithms
-            </p>
-          </div>
-
-          <div className="step-arrow">→</div>
-
-          <div className="step-card">
-            <div className="step-number">3</div>
-            <div className="step-icon">📸</div>
-            <h3>Scan Face</h3>
-            <p>
-              During attendance, scan your face live with webcam for instant
-              authentication
             </p>
           </div>
 
@@ -447,8 +448,8 @@ function LandingPage() {
       <footer id="contact" className="landing-footer">
         <div className="footer-content">
           <div className="footer-section">
-            <h3>🎓 Smart Attendance</h3>
-            <p>AI-Powered Face Recognition System</p>
+            <h3>🎓 Attendify</h3>
+            <p>AI Smart Attendance System with Face Recognition</p>
           </div>
           <div className="footer-section">
             <h4>Quick Links</h4>
@@ -548,7 +549,7 @@ function LandingPage() {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2026 Smart Attendance System. All rights reserved.</p>
+          <p>&copy; 2026 Attendify. All rights reserved.</p>
           <p className="mt-2 font-semibold text-lg text-white">
             Developed by{' '}
             <a
