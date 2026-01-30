@@ -1,0 +1,204 @@
+/* HeroSection styles: layout, typography, buttons, portrait + overlays */
+
+/* Section layout */
+.hero-section {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  padding: 4rem 6rem;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* decorative bubble */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50%;
+  top: -200px;
+  right: -200px;
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Badge / intro */
+.hero-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* Title */
+.hero-title {
+  font-size: 3.25rem;
+  font-weight: 900;
+  color: white;
+  line-height: 1.05;
+  margin-bottom: 1rem;
+}
+
+/* gradient highlight in title */
+.gradient-text {
+  background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Description */
+.hero-description {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+  max-width: 42rem;
+}
+
+/* Buttons */
+.hero-buttons { display: flex; gap: 0.9rem; margin-bottom: 1.5rem; }
+.btn-hero-primary,
+.btn-hero-secondary {
+  padding: 0.85rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+.btn-hero-primary {
+  background: white;
+  color: #4f46e5;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+.btn-hero-primary:hover { transform: translateY(-3px); }
+.btn-hero-secondary {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.18);
+}
+.btn-hero-secondary:hover { background: rgba(255,255,255,0.18); }
+
+/* Stats */
+.hero-stats { display: flex; gap: 1.25rem; margin-top: 0.75rem; flex-wrap: wrap; }
+.stat-item { text-align: left; color: white; }
+.stat-number { font-size: 2.25rem; font-weight: 900; color: #fff; }
+.stat-label { color: rgba(255,255,255,0.85); font-size: 0.95rem; }
+
+/* Illustration wrapper */
+.hero-illustration { display:flex; justify-content:center; align-items:center; }
+
+/* Floating glass card that holds portrait */
+.floating-card {
+  border-radius: 24px;
+  padding: 0.75rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  box-shadow: 0 24px 60px rgba(2,6,23,0.28);
+  border: 1px solid rgba(255,255,255,0.04);
+  animation: float 4s ease-in-out infinite;
+  display: inline-block;
+}
+
+/* Portrait frame & sizing controlled by CSS variables (can override inline) */
+.portrait-frame {
+  /* allow explicit override via CSS variables, otherwise use responsive clamp */
+  --portrait-width: 360px;
+  --portrait-height: 480px;
+  width: var(--portrait-width, clamp(240px, 36vw, 440px));
+  /* prefer aspect-ratio so height scales automatically and image stays consistent */
+  aspect-ratio: var(--portrait-aspect, 1/1);
+  max-width: 100%;
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.02));
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 12px 36px rgba(2,6,23,0.28);
+  transition: transform 240ms ease, box-shadow 240ms ease;
+}
+/* keep presets but they now set CSS vars if used */
+.portrait-sm  { --portrait-width: 240px; --portrait-aspect: 3/4; }
+.portrait-md  { --portrait-width: 360px; --portrait-aspect: 3/4; } /* default */
+.portrait-lg  { --portrait-width: 480px; --portrait-aspect: 3/4; }
+
+/* image fills the frame */
+.portrait-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+  z-index: 1;
+}
+
+/* Scan line overlay (on top of image) */
+.portrait-frame .scan-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #4facfe, transparent);
+  animation: scan 2s linear infinite;
+  z-index: 30;
+}
+
+/* Face outline overlay */
+/* .portrait-frame .face-outline {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 62%;
+  height: 68%;
+  border: 3px solid rgba(255,255,255,0.85);
+  border-radius: 9999px;
+  animation: pulse 2.2s ease-in-out infinite;
+  z-index: 25;
+} */
+
+/* Hover */
+.portrait-frame:hover { transform: translateY(-6px); box-shadow: 0 30px 80px rgba(2,6,23,0.36); }
+
+/* Keyframes */
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes scan {
+  0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; }
+}
+@keyframes pulse {
+  0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%,-50%) scale(1.02); opacity: 0.95; }
+}
+
+/* Responsive: stack on smaller screens and reduce portrait size */
+@media (max-width: 1024px) {
+  .hero-section { grid-template-columns: 1fr; padding: 2.25rem 1rem; gap: 1.5rem; text-align: center; }
+  .hero-title { font-size: 2.2rem; }
+  .hero-description { font-size: 1rem; margin: 0 auto 1rem; max-width: 36rem; }
+  .hero-stats { justify-content: center; }
+  .portrait-frame { --portrait-width: 300px; --portrait-height: 400px; }
+}
+@media (max-width: 600px) {
+  .hero-title { font-size: 1.6rem; }
+  .portrait-frame { --portrait-width: 240px; --portrait-height: 320px; }
+  .hero-buttons { flex-direction: column; gap: 0.6rem; }
+}
