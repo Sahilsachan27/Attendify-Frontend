@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Webcam from 'react-webcam';
-import { adminAPI } from '../../services/api';
+import { adminAPI, studentAPI } from '../../services/api';
 
 function Register() {
   const webcamRef = useRef(null);
@@ -73,17 +73,13 @@ function Register() {
       await adminAPI.registerStudent(formData);
       setMessage('✅ Account created!\n⏳ Uploading face images to cloud...');
       
-      // Step 2: Upload face images to Cloudinary (auto-trains model)
-      const res = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/api/student/register-face`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          student_id: formData.student_id.trim().toUpperCase(),
-          images: images
-        })
+      // ✅ Step 2: Use studentAPI instead of direct fetch
+      const response = await studentAPI.registerFace({
+        student_id: formData.student_id.trim().toUpperCase(),
+        images: images
       });
       
-      const data = await res.json();
+      const data = response.data;
       
       if (!data.success) {
         throw new Error(data.error || 'Face image upload failed');
@@ -102,7 +98,7 @@ function Register() {
       }, 3000);
       
     } catch (err) {
-      setError(err.message || 'Registration failed');
+      setError(err.response?.data?.error || err.message || 'Registration failed');
     } finally {
       setLoading(false);
     }

@@ -1,9 +1,14 @@
 import axios from 'axios';
 
-// ✅ Ensure this reads from environment variable
-const API_URL = import.meta.env.VITE_REACT_APP_API_URL || 'https://attendifyy.onrender.com';
+// ✅ Read from environment variable with explicit debugging
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
-console.log('🌐 API URL being used:', API_URL); // Debug log
+console.log('🌐 API URL being used:', API_URL);
+console.log('📝 Environment variables:', import.meta.env);
+
+if (!API_URL) {
+  console.error('❌ VITE_REACT_APP_API_URL is not defined!');
+}
 
 const api = axios.create({
   baseURL: API_URL,
@@ -81,6 +86,8 @@ export const studentAPI = {
   },
   getAttendance: (studentId) => api.get(`/student/attendance/${studentId}`),
   test: () => api.get('/student/test'),
+  // ✅ NEW: Face registration method
+  registerFace: (data) => api.post('/student/register-face', data),
 };
 
 // Test API connection
