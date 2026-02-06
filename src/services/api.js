@@ -1,10 +1,12 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+// ✅ Ensure this reads from environment variable
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL || 'https://attendifyy.onrender.com';
 
-// Create axios instance
+console.log('🌐 API URL being used:', API_URL); // Debug log
+
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
