@@ -98,7 +98,18 @@ function Register() {
       }, 3000);
       
     } catch (err) {
-      setError(err.response?.data?.error || err.message || 'Registration failed');
+      const errorMessage = err.response?.data?.error || err.message || 'Registration failed';
+      
+      // ✅ ENHANCED ERROR DISPLAY FOR DUPLICATE STUDENT_ID
+      if (errorMessage.includes('Student ID') && errorMessage.includes('already registered')) {
+        setError(`❌ ${errorMessage}\n\n💡 Tip: Try using a different Student ID like:\n• ${formData.student_id}A\n• ${formData.student_id}_NEW\n• Or contact admin if this is your correct ID`);
+      } else if (errorMessage.includes('Email') && errorMessage.includes('already registered')) {
+        setError(`❌ ${errorMessage}\n\n💡 Tip: Use a different email address or login with your existing account.`);
+      } else {
+        setError(`❌ ${errorMessage}`);
+      }
+      
+      setMessage('');
     } finally {
       setLoading(false);
     }
