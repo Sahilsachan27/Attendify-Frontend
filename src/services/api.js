@@ -37,6 +37,7 @@ export const adminAPI = {
   getTrainingStatus: () => api.get('/admin/training-status'),  // ✅ Removed /api prefix
   getStudents: () => api.get('/admin/students'),  // ✅ Removed /api prefix
   getDailyAttendance: (date) => api.get(`/admin/attendance/daily/${date}`),  // ✅ Removed /api prefix
+  checkStudentId: (studentId) => api.get(`/admin/check-student-id/${studentId}`),  // ✅ NEW: Check if Student ID exists
 };
 
 export const studentAPI = {

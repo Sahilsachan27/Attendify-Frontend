@@ -189,3 +189,22 @@
 }
 
 /* Desktop retains original rules */
+
+/* ✅ Student ID Validation States */
+.input-field.border-green-500 {
+  border: 2px solid #10b981 !important;
+  background: #f0fdf4;
+}
+
+.input-field.border-red-500 {
+  border: 2px solid #ef4444 !important;
+  background: #fef2f2;
+}
+
+.input-field:focus.border-green-500 {
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.input-field:focus.border-red-500 {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}

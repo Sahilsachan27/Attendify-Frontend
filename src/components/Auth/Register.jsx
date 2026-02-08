@@ -18,6 +18,8 @@ function Register() {
   });
   const [images, setImages] = useState([]);
   const [supportsCamera, setSupportsCamera] = useState(true); // NEW: detect media support
+  const [studentIdStatus, setStudentIdStatus] = useState(null); // null | 'available' | 'taken' | 'checking'
+  const [studentIdMessage, setStudentIdMessage] = useState('');
 
   useEffect(() => {
     // detect getUserMedia support (may be blocked on insecure origins)
@@ -26,6 +28,53 @@ function Register() {
   }, []);
 
   const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  // ✅ NEW: Real-time Student ID validation (Updated to show only name)
+  const checkStudentId = async (studentId) => {
+    if (!studentId || studentId.length < 3) {
+      setStudentIdStatus(null);
+      setStudentIdMessage('');
+      return;
+    }
+
+    setStudentIdStatus('checking');
+    setStudentIdMessage('⏳ Checking...');
+
+    try {
+      const response = await adminAPI.checkStudentId(studentId.trim().toUpperCase());
+      const data = response.data;
+
+      if (data.exists) {
+        setStudentIdStatus('taken');
+        // ✅ UPDATED: Show only name, no email
+        setStudentIdMessage(`❌ Already registered by ${data.registered_name}`);
+      } else {
+        setStudentIdStatus('available');
+        setStudentIdMessage('✅ Student ID available');
+      }
+    } catch (err) {
+      console.error('Error checking Student ID:', err);
+      setStudentIdStatus(null);
+      setStudentIdMessage('');
+    }
+  };
+
+  // ✅ Debounced change handler for Student ID
+  const handleStudentIdChange = (e) => {
+    const value = e.target.value;
+    setFormData({ ...formData, student_id: value });
+
+    // Clear previous timeout
+    if (window.studentIdTimeout) {
+      clearTimeout(window.studentIdTimeout);
+    }
+
+    // Set new timeout (500ms delay after user stops typing)
+    window.studentIdTimeout = setTimeout(() => {
+      checkStudentId(value);
+    }, 500);
+  };
+
   const capture = () => {
     const shot = webcamRef.current?.getScreenshot();
     if (shot) {
@@ -125,11 +174,35 @@ function Register() {
 
         {step === 1 && (
           <div className="login-form">
-            {/* Basic fields */}
+            {/* Student ID with Real-Time Validation */}
             <div className="form-group">
               <label>📝 Student ID</label>
-              <input className="input-field" name="student_id" value={formData.student_id} onChange={onChange} placeholder="stu001" required />
+              <input
+                className={`input-field ${
+                  studentIdStatus === 'available' ? 'border-green-500' :
+                  studentIdStatus === 'taken' ? 'border-red-500' : ''
+                }`}
+                name="student_id"
+                value={formData.student_id}
+                onChange={handleStudentIdChange}
+                placeholder="stu001"
+                required
+              />
+              {/* Real-time feedback */}
+              {studentIdMessage && (
+                <div
+                  className={`mt-2 text-sm font-semibold ${
+                    studentIdStatus === 'available' ? 'text-green-600' :
+                    studentIdStatus === 'taken' ? 'text-red-600' :
+                    'text-gray-500'
+                  }`}
+                >
+                  {studentIdMessage}
+                </div>
+              )}
             </div>
+
+            {/* Basic fields */}
             <div className="form-group">
               <label>👤 Full Name</label>
               <input className="input-field" name="name" value={formData.name} onChange={onChange} placeholder="John Doe" required />
@@ -158,7 +231,14 @@ function Register() {
             </div>
 
             {error && <div className="error-message">{error}</div>}
-            <button className="btn-login w-full" type="button" onClick={() => setStep(2)}>Next: Face Capture →</button>
+            <button
+              className="btn-login w-full"
+              type="button"
+              onClick={() => setStep(2)}
+              disabled={studentIdStatus === 'taken'}
+            >
+              Next: Face Capture →
+            </button>
           </div>
         )}
 
