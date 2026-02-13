@@ -71,19 +71,29 @@ function LandingPage() {
                 </defs>
               </svg>
             </span>
+            
             <span
-              className="font-extrabold text-xl md:text-2xl text-gradient select-none cursor-pointer leading-tight"
-              onClick={() => navigate('/')}
-              style={{
-                fontFamily: 'Inter, sans-serif',
-                letterSpacing: '-1px',
-                textShadow: '0 4px 24px rgba(99,102,241,0.12)',
-                marginTop: '2px',
-                display: 'inline-block',
-              }}
-            >
-              Attendify
-            </span>
+  onClick={() => navigate('/')}
+  style={{
+    fontWeight: 900,
+    fontSize: "28px",
+    letterSpacing: "-1px",
+    fontFamily: "Poppins, Inter, sans-serif",
+    cursor: "pointer",
+    background: "linear-gradient(135deg, #f59e0b, #ef4444, #6366f1)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    textShadow: `
+      0 2px 4px rgba(0,0,0,0.15),
+      0 6px 18px rgba(99,102,241,0.25)
+    `,
+    filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.2))",
+  }}
+>
+  ATTENDIFY
+</span>
+
+
           </div>
           {/* Desktop nav links */}
           <nav className="nav-links hidden md:flex gap-8 font-semibold text-gray-700">
