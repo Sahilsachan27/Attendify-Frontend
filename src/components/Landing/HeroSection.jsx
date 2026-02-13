@@ -7,9 +7,21 @@ export default function HeroSection() {
   const navigate = useNavigate();
 
   return (
-    <section className="hero-section" id="home">
-      <div className="hero-content">
-        <div className="hero-badge">
+    <section 
+      className="hero-section" 
+      id="home"
+      style={{
+        paddingTop: '72px' // ✅ Responsive padding that clears navbar on mobile
+      }}
+    >
+      <div className="hero-content" style={{ paddingTop: '0rem' }}> {/* ✅ Extra spacing for content */}
+        <div 
+          className="hero-badge"
+          style={{
+            marginTop: 'clamp(0.2rem, 2vw, 0)', // ✅ Extra top margin on small screens
+            fontSize: 'clamp(0.8rem, 2vw, 0.875rem)', // ✅ Responsive font size
+          }}
+        >
           🚀AI Smart Attendance System with Face Recognition
         </div>
         <h1 className="hero-title">
