@@ -8,6 +8,7 @@ function LandingPage() {
   const navigate = useNavigate()
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [showAppModal, setShowAppModal] = useState(false) // ✅ NEW STATE
 
   const navLinks = [
     { label: 'Home', href: '#home' },
@@ -19,6 +20,19 @@ function LandingPage() {
     localStorage.setItem('user', JSON.stringify(userData))
     navigate(userData.role === 'admin' ? '/admin' : '/student')
   }
+
+  // ✅ NEW: Direct APK download handler
+  const handleDownloadApp = () => {
+    setShowAppModal(false); // Close modal first
+    
+    // Create temporary download link
+    const link = document.createElement("a");
+    link.href = "/Attendifyy.apk";  // ✅ Direct path from public folder
+    link.download = "Attendifyy.apk";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="landing-page">
@@ -580,6 +594,126 @@ function LandingPage() {
         onClose={() => setShowAuthModal(false)}
         onLogin={handleLogin}
       />
+
+      {/* ✅ SIMPLIFIED: Text-Only Floating Download Button with Badge */}
+      <div
+        onClick={() => setShowAppModal(true)}
+        className="fixed z-50 cursor-pointer group"
+        style={{
+          bottom: '32px',  /* 🎛️ ADJUST: Distance from bottom (20px-80px) */
+          right: '32px'    /* 🎛️ ADJUST: Distance from right (20px-80px) */
+        }}
+      >
+        {/* Animated Glow Background */}
+        <div 
+          className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 blur-2xl opacity-40 group-hover:opacity-70 animate-pulse transition-opacity duration-500"
+          style={{
+            width: '50px',    /* 🎛️ ADJUST: Glow width */
+            height: '40px'     /* 🎛️ ADJUST: Glow height */
+          }}
+        >
+        </div>
+
+        {/* Text Button with Badge */}
+        <div className="relative group-hover:-translate-y-1 transition-transform duration-300">
+          {/* Text Shadow/Glow */}
+          <div className="absolute inset-0 blur-lg bg-gradient-to-r from-blue-500 to-purple-600 opacity-50 rounded-full"></div>
+          
+          {/* Text Container */}
+          <div 
+            className="relative rounded-full bg-white/95 backdrop-blur-sm shadow-[0_4px_20px_rgba(99,102,241,0.3),_inset_0_1px_0_rgba(255,255,255,0.8)] border border-indigo-100 group-hover:shadow-[0_6px_28px_rgba(99,102,241,0.5)] transition-shadow"
+            style={{
+              paddingLeft: '20px',   /* 🎛️ ADJUST: Text padding left (16px-28px) */
+              paddingRight: '20px',  /* 🎛️ ADJUST: Text padding right (16px-28px) */
+              paddingTop: '10px',    /* 🎛️ ADJUST: Text padding top (8px-14px) */
+              paddingBottom: '10px'  /* 🎛️ ADJUST: Text padding bottom (8px-14px) */
+            }}
+          >
+            <span 
+              className="font-extrabold tracking-wide bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent whitespace-nowrap"
+              style={{
+                fontSize: '14px'  /* 🎛️ ADJUST: Text size (12px-18px) */
+              }}
+            >
+              Get the App
+            </span>
+
+            {/* Notification Badge */}
+            <div 
+              className="absolute -top-2 -right-2 bg-gradient-to-br from-green-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg border-2 border-white animate-bounce"
+              style={{
+                animationDuration: '2s',
+                width: '22px',    /* 🎛️ ADJUST: Badge width (20px-32px) */
+                height: '22px'    /* 🎛️ ADJUST: Badge height (20px-32px) */
+              }}
+            >
+              <span 
+                className="text-white font-black"
+                style={{
+                  fontSize: '11px'  /* 🎛️ ADJUST: Badge icon size (10px-16px) */
+                }}
+              >
+                ↓
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ✅ UPDATED: App Download Modal with Direct Download */}
+      {showAppModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center z-50">
+          <div
+            className="bg-white rounded-2xl p-6 text-center shadow-2xl"
+            style={{
+              animation: "fadeScale 0.3s ease-out",
+              width: '90%',        /* 🎛️ ADJUST: Modal width (85%-95%) */
+              maxWidth: '400px'    /* 🎛️ ADJUST: Modal max width (320px-500px) */
+            }}
+          >
+            <div className="mb-3" style={{ fontSize: '64px' }}>
+              🚀
+            </div>
+
+            <h2 
+              className="font-bold mb-2 bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500 bg-clip-text text-transparent"
+              style={{
+                fontSize: '24px'  /* 🎛️ ADJUST: Modal title size (20px-28px) */
+              }}
+            >
+              Install Attendifyy App
+            </h2>
+
+            <p 
+              className="text-gray-600 mb-5"
+              style={{
+                fontSize: '14px'  /* 🎛️ ADJUST: Modal description size (12px-16px) */
+              }}
+            >
+              Experience faster face recognition, smoother UI and better mobile performance.
+            </p>
+
+            {/* ✅ UPDATED: Direct Download Button */}
+            <button
+              onClick={handleDownloadApp}
+              className="block w-full rounded-xl font-semibold bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg hover:scale-105 transition cursor-pointer"
+              style={{ padding: '12px 0' }}
+            >
+              📥 Download Now
+            </button>
+
+            <button
+              onClick={() => setShowAppModal(false)}
+              className="mt-4 text-gray-500 hover:text-gray-700"
+              style={{
+                fontSize: '14px'  /* 🎛️ ADJUST: "Maybe Later" text size (12px-16px) */
+              }}
+            >
+              Maybe Later
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
