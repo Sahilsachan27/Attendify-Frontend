@@ -39,53 +39,20 @@ function LandingPage() {
       {/* Top Navbar - enhanced */}
       <header className="landing-navbar w-full bg-white/80 backdrop-blur-lg shadow-sm fixed top-0 left-0 z-40">
         <div className="navbar-inner flex items-center justify-between px-4 py-2 md:px-8">
-          {/* App Name & 3D Icon (always visible, left side) */}
-          <div className="flex items-center gap-2 min-w-[180px]">
-            {/* 3D Graduation Cap SVG */}
-            <span className="block">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 38 38"
-                fill="none"
-                style={{ filter: 'drop-shadow(0 2px 8px #6366f1)' }}
-              >
-                <ellipse
-                  cx="19"
-                  cy="32"
-                  rx="14"
-                  ry="5"
-                  fill="#6366f1"
-                  opacity="0.15"
-                />
-                <path
-                  d="M19 5L35 13L19 21L3 13L19 5Z"
-                  fill="url(#grad1)"
-                  stroke="#6366f1"
-                  strokeWidth="2"
-                />
-                <path
-                  d="M19 21V32"
-                  stroke="#6366f1"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <defs>
-                  <linearGradient
-                    id="grad1"
-                    x1="19"
-                    y1="5"
-                    x2="19"
-                    y2="21"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop stopColor="#6366f1" />
-                    <stop offset="1" stopColor="#ec4899" />
-                  </linearGradient>
-                </defs>
-              </svg>
-            </span>
-            
+          {/* Logo + Brand Name */}
+          <div className="flex items-center gap-1 min-w-[180px]">
+            <img
+              src="/attendifyy.png"
+              alt="Attendifyy"
+              onClick={() => navigate('/')}
+              style={{
+                height: '38px',
+                width: 'auto',
+                cursor: 'pointer',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 2px 12px rgba(99,102,241,0.35))',
+              }}
+            />
             <span
   onClick={() => navigate('/')}
   style={{
