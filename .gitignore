@@ -6,3 +6,4 @@ dist/
 .env.production.local
 .env.development
 .env.development.local
+public/*.apk
