@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './AdminStyles.css';
+import React, { useState, useEffect } from 'react'
+import './AdminStyles.css'
 
 function GeofenceConfig() {
   const [config, setConfig] = useState({
@@ -7,31 +7,80 @@ function GeofenceConfig() {
     longitude: '77.2090',
     radius: '500',
     enabled: true,
-  });
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  })
+  const [loading, setLoading] = useState(true)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+
+  // Fetch actual config from backend on mount
+  useEffect(() => {
+    fetchConfig()
+  }, [])
+
+  const fetchConfig = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/admin/geofence-config`,
+      )
+      if (response.ok) {
+        const data = await response.json()
+        setConfig(data)
+      }
+    } catch (err) {
+      console.error('Failed to fetch config:', err)
+      setError('Failed to load geofencing configuration.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked } = e.target
     setConfig({
       ...config,
       [name]: type === 'checkbox' ? checked : value,
-    });
-  };
+    })
+  }
 
   const handleSave = async (e) => {
-    e.preventDefault();
-    setMessage('');
-    setError('');
+    e.preventDefault()
+    setMessage('')
+    setError('')
 
     try {
-      // Here you would save to backend
-      setMessage('✅ Geofence configuration saved successfully!');
-      setTimeout(() => setMessage(''), 3000);
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/admin/geofence-config`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(config),
+        },
+      )
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setMessage('✅ Geofence configuration saved successfully!')
+        setConfig(data.config)
+        setTimeout(() => setMessage(''), 3000)
+      } else {
+        throw new Error(data.error || 'Failed to update configuration')
+      }
     } catch (err) {
-      setError('❌ Failed to save configuration');
+      setError(`❌ ${err.message}`)
     }
-  };
+  }
+
+  if (loading) {
+    return (
+      <div className="admin-section">
+        <h2>🌍 Geofence Configuration</h2>
+        <p>Loading...</p>
+      </div>
+    )
+  }
 
   return (
     <div className="admin-section">
@@ -70,7 +119,7 @@ function GeofenceConfig() {
         <h3>⚙️ Geofence Settings</h3>
 
         <div className="form-group">
-          <label>
+          <label className="toggle-wrap">
             <input
               type="checkbox"
               name="enabled"
@@ -134,7 +183,9 @@ function GeofenceConfig() {
             max="5000"
             className="range-slider"
           />
-          <small>Students must be within {config.radius}m to mark attendance</small>
+          <small>
+            Students must be within {config.radius}m to mark attendance
+          </small>
         </div>
 
         {/* Info Box */}
@@ -156,7 +207,7 @@ function GeofenceConfig() {
         </button>
       </form>
     </div>
-  );
+  )
 }
 
-export default GeofenceConfig;
+export default GeofenceConfig

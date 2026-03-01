@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react';
-import Webcam from 'react-webcam';
-import { adminAPI } from '../../services/api';
-import './AdminStyles.css';
+import React, { useState, useRef } from 'react'
+import Webcam from 'react-webcam'
+import { adminAPI } from '../../services/api'
+import './AdminStyles.css'
 
 function RegisterStudent() {
-  const webcamRef = useRef(null);
+  const webcamRef = useRef(null)
   const [formData, setFormData] = useState({
     student_id: '',
     name: '',
@@ -12,88 +12,90 @@ function RegisterStudent() {
     password: '',
     department: '',
     year: '',
-  });
-  const [capturedImages, setCapturedImages] = useState([]);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
-  const [showCamera, setShowCamera] = useState(false);
-  const [registeredStudentId, setRegisteredStudentId] = useState(null);
-  const [loading, setLoading] = useState(false);
+  })
+  const [capturedImages, setCapturedImages] = useState([])
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+  const [showCamera, setShowCamera] = useState(false)
+  const [registeredStudentId, setRegisteredStudentId] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
   const handleRegister = async (e) => {
-    e.preventDefault();
-    setMessage('');
-    setError('');
-    setLoading(true);
+    e.preventDefault()
+    setMessage('')
+    setError('')
+    setLoading(true)
 
     try {
-      const response = await adminAPI.registerStudent(formData);
-      setMessage('✅ Student registered successfully! Now capture face images.');
-      setRegisteredStudentId(formData.student_id);
-      setShowCamera(true);
+      const response = await adminAPI.registerStudent(formData)
+      setMessage('✅ Student registered successfully! Now capture face images.')
+      setRegisteredStudentId(formData.student_id)
+      setShowCamera(true)
     } catch (err) {
-      const errorMsg = err.response?.data?.error || 'Registration failed';
-      setError(errorMsg);
-      
+      const errorMsg = err.response?.data?.error || 'Registration failed'
+      setError(errorMsg)
+
       // If duplicate error, don't show camera
       if (errorMsg.includes('already')) {
-        setShowCamera(false);
+        setShowCamera(false)
       }
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const captureImage = () => {
-    const imageSrc = webcamRef.current.getScreenshot();
+    const imageSrc = webcamRef.current.getScreenshot()
     if (imageSrc) {
-      setCapturedImages([...capturedImages, imageSrc]);
-      setMessage(`📸 Captured ${capturedImages.length + 1} image(s) - Need at least 5`);
-      setError('');
+      setCapturedImages([...capturedImages, imageSrc])
+      setMessage(
+        `📸 Captured ${capturedImages.length + 1} image(s) - Need at least 5`,
+      )
+      setError('')
     }
-  };
+  }
 
   const uploadImages = async () => {
     if (capturedImages.length < 5) {
-      setError('❌ Please capture at least 5 images');
-      return;
+      setError('❌ Please capture at least 5 images')
+      return
     }
 
-    setLoading(true);
-    setMessage('⏳ Step 1/2: Uploading face images...');
+    setLoading(true)
+    setMessage('⏳ Step 1/2: Uploading face images...')
 
     try {
       // Step 1: Upload face images
-      await adminAPI.uploadFace(registeredStudentId, capturedImages);
-      
-      setMessage('⏳ Step 2/2: Training AI model automatically...');
-      
+      await adminAPI.uploadFace(registeredStudentId, capturedImages)
+
+      setMessage('⏳ Step 2/2: Training AI model automatically...')
+
       // Step 2: Automatically train the model (NEW!)
       try {
-        const trainResponse = await adminAPI.trainModel();
-        console.log('✅ Model trained:', trainResponse.data);
-        
+        const trainResponse = await adminAPI.trainModel()
+        console.log('✅ Model trained:', trainResponse.data)
+
         setMessage(
           `✅ Student Registration Complete!\n\n` +
-          `📸 ${capturedImages.length} face images uploaded\n` +
-          `🤖 AI Model trained successfully\n` +
-          `🎯 Trained ${trainResponse.data.students_trained} students\n` +
-          `📊 Total images: ${trainResponse.data.total_images}\n\n` +
-          `✨ Student can now mark attendance immediately!`
-        );
+            `📸 ${capturedImages.length} face images uploaded\n` +
+            `🤖 AI Model trained successfully\n` +
+            `🎯 Trained ${trainResponse.data.students_trained} students\n` +
+            `📊 Total images: ${trainResponse.data.total_images}\n\n` +
+            `✨ Student can now mark attendance immediately!`,
+        )
       } catch (trainError) {
-        console.error('❌ Training failed:', trainError);
+        console.error('❌ Training failed:', trainError)
         setMessage(
           `✅ Face images uploaded successfully!\n\n` +
-          `⚠️ Automatic training failed\n` +
-          `Please go to "Train Model" tab to train manually.`
-        );
+            `⚠️ Automatic training failed\n` +
+            `Please go to "Train Model" tab to train manually.`,
+        )
       }
-      
+
       // Reset form after successful upload
       setTimeout(() => {
         setFormData({
@@ -103,21 +105,20 @@ function RegisterStudent() {
           password: '',
           department: '',
           year: '',
-        });
-        setCapturedImages([]);
-        setShowCamera(false);
-        setRegisteredStudentId(null);
-        setMessage('');
-        setError('');
-      }, 5000);
-      
+        })
+        setCapturedImages([])
+        setShowCamera(false)
+        setRegisteredStudentId(null)
+        setMessage('')
+        setError('')
+      }, 5000)
     } catch (err) {
-      const errorMsg = err.response?.data?.error || 'Upload failed';
-      setError(`❌ ${errorMsg}`);
+      const errorMsg = err.response?.data?.error || 'Upload failed'
+      setError(`❌ ${errorMsg}`)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const cancelRegistration = () => {
     setFormData({
@@ -127,13 +128,13 @@ function RegisterStudent() {
       password: '',
       department: '',
       year: '',
-    });
-    setCapturedImages([]);
-    setShowCamera(false);
-    setRegisteredStudentId(null);
-    setMessage('');
-    setError('');
-  };
+    })
+    setCapturedImages([])
+    setShowCamera(false)
+    setRegisteredStudentId(null)
+    setMessage('')
+    setError('')
+  }
 
   return (
     <div className="admin-section">
@@ -211,10 +212,10 @@ function RegisterStudent() {
             </div>
             <div className="form-group">
               <label>📚 Year</label>
-              <select 
-                name="year" 
-                value={formData.year} 
-                onChange={handleInputChange} 
+              <select
+                name="year"
+                value={formData.year}
+                onChange={handleInputChange}
                 required
                 disabled={loading}
               >
@@ -228,7 +229,9 @@ function RegisterStudent() {
           </div>
 
           {error && <div className="error-message">{error}</div>}
-          {message && !showCamera && <div className="success-message">{message}</div>}
+          {message && !showCamera && (
+            <div className="success-message">{message}</div>
+          )}
 
           <button type="submit" className="btn-primary" disabled={loading}>
             {loading ? '⏳ Registering...' : '✅ Register Student'}
@@ -238,39 +241,40 @@ function RegisterStudent() {
         <div className="face-capture">
           <h3>📸 Capture Face Images for {formData.name}</h3>
           <p>Capture at least 5 images from different angles and expressions</p>
-          
+
           <div className="webcam-container">
             <Webcam
               ref={webcamRef}
               audio={false}
               screenshotFormat="image/jpeg"
-              videoConstraints={{ 
-                width: 640, 
-                height: 480, 
-                facingMode: 'user' 
+              videoConstraints={{
+                width: 640,
+                height: 480,
+                facingMode: 'user',
               }}
+              mirrored={true}
             />
           </div>
 
           <div className="capture-controls">
-            <button 
-              onClick={captureImage} 
+            <button
+              onClick={captureImage}
               className="btn-primary"
               disabled={loading || capturedImages.length >= 10}
             >
               📷 Capture Image ({capturedImages.length}/10)
             </button>
             {capturedImages.length >= 5 && (
-              <button 
-                onClick={uploadImages} 
+              <button
+                onClick={uploadImages}
                 className="btn-success"
                 disabled={loading}
               >
                 {loading ? '⏳ Uploading...' : '✅ Upload Images'}
               </button>
             )}
-            <button 
-              onClick={cancelRegistration} 
+            <button
+              onClick={cancelRegistration}
               className="btn-danger"
               disabled={loading}
             >
@@ -288,10 +292,12 @@ function RegisterStudent() {
         </div>
       )}
 
-      {message && showCamera && <div className="success-message">{message}</div>}
+      {message && showCamera && (
+        <div className="success-message">{message}</div>
+      )}
       {error && showCamera && <div className="error-message">{error}</div>}
     </div>
-  );
+  )
 }
 
-export default RegisterStudent;
+export default RegisterStudent

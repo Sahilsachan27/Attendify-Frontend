@@ -23,16 +23,16 @@ function LandingPage() {
 
   // ✅ NEW: Direct APK download handler
   const handleDownloadApp = () => {
-    setShowAppModal(false); // Close modal first
-    
+    setShowAppModal(false) // Close modal first
+
     // Create temporary download link
-    const link = document.createElement("a");
-    link.href = "/Attendifyy.apk";  // ✅ Direct path from public folder
-    link.download = "Attendifyy.apk";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+    const link = document.createElement('a')
+    link.href = '/Attendifyy.apk' // ✅ Direct path from public folder
+    link.download = 'Attendifyy.apk'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
 
   return (
     <div className="landing-page">
@@ -54,27 +54,26 @@ function LandingPage() {
               }}
             />
             <span
-  onClick={() => navigate('/')}
-  style={{
-    fontWeight: 900,
-    fontSize: "28px",
-    letterSpacing: "-1px",
-    fontFamily: "Poppins, Inter, sans-serif",
-    cursor: "pointer",
-    background: "linear-gradient(135deg, #f59e0b, #ef4444, #6366f1)",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    textShadow: `
+              onClick={() => navigate('/')}
+              style={{
+                fontWeight: 900,
+                fontSize: '28px',
+                letterSpacing: '-1px',
+                fontFamily: 'Poppins, Inter, sans-serif',
+                cursor: 'pointer',
+                background:
+                  'linear-gradient(135deg, #f59e0b, #ef4444, #6366f1)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textShadow: `
       0 2px 4px rgba(0,0,0,0.15),
       0 6px 18px rgba(99,102,241,0.25)
     `,
-    filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.2))",
-  }}
->
-  ATTENDIFY
-</span>
-
-
+                filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.2))',
+              }}
+            >
+              ATTENDIFY
+            </span>
           </div>
           {/* Desktop nav links */}
           <nav className="nav-links hidden md:flex gap-8 font-semibold text-gray-700">
@@ -160,9 +159,7 @@ function LandingPage() {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <span className="text-2xl">🎓</span>
-                <span className="font-semibold text-gray-800">
-                  Attendify
-                </span>
+                <span className="font-semibold text-gray-800">Attendify</span>
               </div>
 
               <button
@@ -241,8 +238,8 @@ function LandingPage() {
             <div className="feature-icon">👤</div>
             <h3>Face Authentication</h3>
             <p>
-              Advanced AI-powered face recognition using OpenCV LBPH algorithm
-              ensures accurate student identification in real-time.
+              Advanced AI-powered face recognition using DeepFace ArcFace
+              technology ensures accurate student identification in real-time.
             </p>
             <ul className="feature-list">
               <li>✓ Multiple angle capture</li>
@@ -342,7 +339,7 @@ function LandingPage() {
           </div>
 
           <div className="step-arrow">→</div>
-          
+
           <div className="step-card">
             <div className="step-number">3</div>
             <div className="step-icon">📸</div>
@@ -352,7 +349,6 @@ function LandingPage() {
               authentication
             </p>
           </div>
-          
 
           <div className="step-arrow">→</div>
 
@@ -567,57 +563,59 @@ function LandingPage() {
         onClick={() => setShowAppModal(true)}
         className="fixed z-50 cursor-pointer group"
         style={{
-          bottom: '32px',  /* 🎛️ ADJUST: Distance from bottom (20px-80px) */
-          right: '32px'    /* 🎛️ ADJUST: Distance from right (20px-80px) */
+          bottom: '32px' /* 🎛️ ADJUST: Distance from bottom (20px-80px) */,
+          right: '32px' /* 🎛️ ADJUST: Distance from right (20px-80px) */,
         }}
       >
         {/* Animated Glow Background */}
-        <div 
+        <div
           className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 blur-2xl opacity-40 group-hover:opacity-70 animate-pulse transition-opacity duration-500"
           style={{
-            width: '50px',    /* 🎛️ ADJUST: Glow width */
-            height: '40px'     /* 🎛️ ADJUST: Glow height */
+            width: '50px' /* 🎛️ ADJUST: Glow width */,
+            height: '40px' /* 🎛️ ADJUST: Glow height */,
           }}
-        >
-        </div>
+        ></div>
 
         {/* Text Button with Badge */}
         <div className="relative group-hover:-translate-y-1 transition-transform duration-300">
           {/* Text Shadow/Glow */}
           <div className="absolute inset-0 blur-lg bg-gradient-to-r from-blue-500 to-purple-600 opacity-50 rounded-full"></div>
-          
+
           {/* Text Container */}
-          <div 
+          <div
             className="relative rounded-full bg-white/95 backdrop-blur-sm shadow-[0_4px_20px_rgba(99,102,241,0.3),_inset_0_1px_0_rgba(255,255,255,0.8)] border border-indigo-100 group-hover:shadow-[0_6px_28px_rgba(99,102,241,0.5)] transition-shadow"
             style={{
-              paddingLeft: '20px',   /* 🎛️ ADJUST: Text padding left (16px-28px) */
-              paddingRight: '20px',  /* 🎛️ ADJUST: Text padding right (16px-28px) */
-              paddingTop: '10px',    /* 🎛️ ADJUST: Text padding top (8px-14px) */
-              paddingBottom: '10px'  /* 🎛️ ADJUST: Text padding bottom (8px-14px) */
+              paddingLeft:
+                '20px' /* 🎛️ ADJUST: Text padding left (16px-28px) */,
+              paddingRight:
+                '20px' /* 🎛️ ADJUST: Text padding right (16px-28px) */,
+              paddingTop: '10px' /* 🎛️ ADJUST: Text padding top (8px-14px) */,
+              paddingBottom:
+                '10px' /* 🎛️ ADJUST: Text padding bottom (8px-14px) */,
             }}
           >
-            <span 
+            <span
               className="font-extrabold tracking-wide bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent whitespace-nowrap"
               style={{
-                fontSize: '14px'  /* 🎛️ ADJUST: Text size (12px-18px) */
+                fontSize: '14px' /* 🎛️ ADJUST: Text size (12px-18px) */,
               }}
             >
               Get the App
             </span>
 
             {/* Notification Badge */}
-            <div 
+            <div
               className="absolute -top-2 -right-2 bg-gradient-to-br from-green-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg border-2 border-white animate-bounce"
               style={{
                 animationDuration: '2s',
-                width: '22px',    /* 🎛️ ADJUST: Badge width (20px-32px) */
-                height: '22px'    /* 🎛️ ADJUST: Badge height (20px-32px) */
+                width: '22px' /* 🎛️ ADJUST: Badge width (20px-32px) */,
+                height: '22px' /* 🎛️ ADJUST: Badge height (20px-32px) */,
               }}
             >
-              <span 
+              <span
                 className="text-white font-black"
                 style={{
-                  fontSize: '11px'  /* 🎛️ ADJUST: Badge icon size (10px-16px) */
+                  fontSize: '11px' /* 🎛️ ADJUST: Badge icon size (10px-16px) */,
                 }}
               >
                 ↓
@@ -633,31 +631,33 @@ function LandingPage() {
           <div
             className="bg-white rounded-2xl p-6 text-center shadow-2xl"
             style={{
-              animation: "fadeScale 0.3s ease-out",
-              width: '90%',        /* 🎛️ ADJUST: Modal width (85%-95%) */
-              maxWidth: '400px'    /* 🎛️ ADJUST: Modal max width (320px-500px) */
+              animation: 'fadeScale 0.3s ease-out',
+              width: '90%' /* 🎛️ ADJUST: Modal width (85%-95%) */,
+              maxWidth: '400px' /* 🎛️ ADJUST: Modal max width (320px-500px) */,
             }}
           >
             <div className="mb-3" style={{ fontSize: '64px' }}>
               🚀
             </div>
 
-            <h2 
+            <h2
               className="font-bold mb-2 bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500 bg-clip-text text-transparent"
               style={{
-                fontSize: '24px'  /* 🎛️ ADJUST: Modal title size (20px-28px) */
+                fontSize: '24px' /* 🎛️ ADJUST: Modal title size (20px-28px) */,
               }}
             >
               Install Attendifyy App
             </h2>
 
-            <p 
+            <p
               className="text-gray-600 mb-5"
               style={{
-                fontSize: '14px'  /* 🎛️ ADJUST: Modal description size (12px-16px) */
+                fontSize:
+                  '14px' /* 🎛️ ADJUST: Modal description size (12px-16px) */,
               }}
             >
-              Experience faster face recognition, smoother UI and better mobile performance.
+              Experience faster face recognition, smoother UI and better mobile
+              performance.
             </p>
 
             {/* ✅ UPDATED: Direct Download Button */}
@@ -673,7 +673,8 @@ function LandingPage() {
               onClick={() => setShowAppModal(false)}
               className="mt-4 text-gray-500 hover:text-gray-700"
               style={{
-                fontSize: '14px'  /* 🎛️ ADJUST: "Maybe Later" text size (12px-16px) */
+                fontSize:
+                  '14px' /* 🎛️ ADJUST: "Maybe Later" text size (12px-16px) */,
               }}
             >
               Maybe Later

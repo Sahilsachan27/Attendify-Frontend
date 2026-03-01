@@ -1,17 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react';
-import Webcam from 'react-webcam';
-import { authAPI, adminAPI } from '../../services/api';
-import './AuthModal.css';
+import React, { useState, useRef, useEffect } from 'react'
+import Webcam from 'react-webcam'
+import { authAPI, adminAPI } from '../../services/api'
+import './AuthModal.css'
 
 function AuthModal({ isOpen, onClose, onLogin }) {
-  const [mode, setMode] = useState('login'); // 'login', 'register', 'face-capture'
-  const [step, setStep] = useState(1); // Registration steps
-  const webcamRef = useRef(null);
-  
+  const [mode, setMode] = useState('login') // 'login', 'register', 'face-capture'
+  const [step, setStep] = useState(1) // Registration steps
+  const webcamRef = useRef(null)
+
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
-  });
+  })
 
   const [registerData, setRegisterData] = useState({
     student_id: '',
@@ -21,13 +21,15 @@ function AuthModal({ isOpen, onClose, onLogin }) {
     confirmPassword: '',
     department: '',
     year: '',
-  });
+  })
 
-  const [capturedImages, setCapturedImages] = useState([]);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [faceGuideText, setFaceGuideText] = useState('Center your face in the circle');
+  const [capturedImages, setCapturedImages] = useState([])
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [faceGuideText, setFaceGuideText] = useState(
+    'Center your face in the circle',
+  )
 
   useEffect(() => {
     if (mode === 'face-capture') {
@@ -37,78 +39,86 @@ function AuthModal({ isOpen, onClose, onLogin }) {
         'Turn slightly to the left',
         'Turn slightly to the right',
         'Look straight ahead',
-      ];
-      const index = capturedImages.length % messages.length;
-      setFaceGuideText(messages[index]);
+      ]
+      const index = capturedImages.length % messages.length
+      setFaceGuideText(messages[index])
     }
-  }, [capturedImages.length, mode]);
+  }, [capturedImages.length, mode])
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
+    e.preventDefault()
+    setError('')
+    setLoading(true)
 
     try {
-      const response = await authAPI.login(loginData);
-      const { token, user } = response.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
-      onLogin(user);
-      onClose();
+      const response = await authAPI.login(loginData)
+      const { token, user } = response.data
+      localStorage.setItem('token', token)
+      localStorage.setItem('user', JSON.stringify(user))
+      onLogin(user)
+      onClose()
     } catch (err) {
-      setError(err.response?.data?.error || 'Login failed');
+      setError(err.response?.data?.error || 'Login failed')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleRegisterNext = () => {
     if (step === 1) {
       // Validate step 1
-      if (!registerData.student_id || !registerData.name || !registerData.email) {
-        setError('Please fill all fields');
-        return;
+      if (
+        !registerData.student_id ||
+        !registerData.name ||
+        !registerData.email
+      ) {
+        setError('Please fill all fields')
+        return
       }
-      setStep(2);
-      setError('');
+      setStep(2)
+      setError('')
     } else if (step === 2) {
       // Validate step 2
-      if (!registerData.password || !registerData.department || !registerData.year) {
-        setError('Please fill all fields');
-        return;
+      if (
+        !registerData.password ||
+        !registerData.department ||
+        !registerData.year
+      ) {
+        setError('Please fill all fields')
+        return
       }
       if (registerData.password !== registerData.confirmPassword) {
-        setError('Passwords do not match');
-        return;
+        setError('Passwords do not match')
+        return
       }
       if (registerData.password.length < 6) {
-        setError('Password must be at least 6 characters');
-        return;
+        setError('Password must be at least 6 characters')
+        return
       }
-      setMode('face-capture');
-      setError('');
+      setMode('face-capture')
+      setError('')
     }
-  };
+  }
 
   const captureImage = () => {
-    const imageSrc = webcamRef.current?.getScreenshot();
+    const imageSrc = webcamRef.current?.getScreenshot()
     if (imageSrc) {
-      setCapturedImages([...capturedImages, imageSrc]);
-      setMessage(`✅ Captured ${capturedImages.length + 1}/5 images`);
-      setError('');
+      setCapturedImages([...capturedImages, imageSrc])
+      setMessage(`✅ Captured ${capturedImages.length + 1}/5 images`)
+      setError('')
     }
-  };
+  }
 
   const handleCompleteRegistration = async () => {
     if (capturedImages.length < 5) {
-      setError('Please capture at least 5 images');
-      return;
+      setError('Please capture at least 5 images')
+      return
     }
 
-    setLoading(true);
-    setMessage('⏳ Step 1/3: Creating your account...');
+    setLoading(true)
+    setMessage('⏳ Step 1/3: Creating your account...')
 
     try {
       // Step 1: Register student
@@ -119,61 +129,62 @@ function AuthModal({ isOpen, onClose, onLogin }) {
         password: registerData.password,
         department: registerData.department,
         year: registerData.year,
-      });
+      })
 
-      setMessage('⏳ Step 2/3: Uploading face images...');
-      
+      setMessage('⏳ Step 2/3: Uploading face images...')
+
       // Step 2: Upload face images
-      await adminAPI.uploadFace(registerData.student_id, capturedImages);
+      await adminAPI.uploadFace(registerData.student_id, capturedImages)
 
-      setMessage('⏳ Step 3/3: Training AI model... Please wait (this takes 10-30 seconds)...');
-      
+      setMessage(
+        '⏳ Step 3/3: Training AI model... Please wait (this takes 10-30 seconds)...',
+      )
+
       // Step 3: Automatically train the model (NEW!)
       try {
-        const trainResponse = await adminAPI.trainModel();
-        console.log('✅ Model trained:', trainResponse.data);
-        
+        const trainResponse = await adminAPI.trainModel()
+        console.log('✅ Model trained:', trainResponse.data)
+
         setMessage(
           `✅ Registration Complete!\n\n` +
-          `🎉 Your account is ready!\n` +
-          `🤖 AI Model trained successfully\n` +
-          `📸 ${capturedImages.length} face images saved\n` +
-          `✨ You can now login and mark attendance!`
-        );
+            `🎉 Your account is ready!\n` +
+            `🤖 AI Model trained successfully\n` +
+            `📸 ${capturedImages.length} face images saved\n` +
+            `✨ You can now login and mark attendance!`,
+        )
       } catch (trainError) {
-        console.error('❌ Training failed:', trainError);
-        
+        console.error('❌ Training failed:', trainError)
+
         // Even if training fails, registration was successful
         setMessage(
           `✅ Registration Successful!\n\n` +
-          `⚠️ Model training failed - Please contact admin\n` +
-          `📧 Login: ${registerData.email}\n` +
-          `🔒 Password: ${registerData.password}\n\n` +
-          `Note: Admin needs to train the model manually before you can mark attendance.`
-        );
+            `⚠️ Model training failed - Please contact admin\n` +
+            `📧 Login: ${registerData.email}\n` +
+            `🔒 Password: ${registerData.password}\n\n` +
+            `Note: Admin needs to train the model manually before you can mark attendance.`,
+        )
       }
-      
+
       // Reset form and switch to login after 5 seconds
       setTimeout(() => {
-        resetForm();
-        setMode('login');
-        setStep(1);
-        setCapturedImages([]);
-        setMessage('');
-        setError('');
-      }, 5000);
-      
+        resetForm()
+        setMode('login')
+        setStep(1)
+        setCapturedImages([])
+        setMessage('')
+        setError('')
+      }, 5000)
     } catch (err) {
-      const errorMsg = err.response?.data?.error || 'Registration failed';
-      console.error('❌ Registration error:', errorMsg);
-      setError(`❌ ${errorMsg}`);
+      const errorMsg = err.response?.data?.error || 'Registration failed'
+      console.error('❌ Registration error:', errorMsg)
+      setError(`❌ ${errorMsg}`)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const resetForm = () => {
-    setLoginData({ email: '', password: '' });
+    setLoginData({ email: '', password: '' })
     setRegisterData({
       student_id: '',
       name: '',
@@ -182,23 +193,28 @@ function AuthModal({ isOpen, onClose, onLogin }) {
       confirmPassword: '',
       department: '',
       year: '',
-    });
-    setError('');
-    setMessage('');
-  };
+    })
+    setError('')
+    setMessage('')
+  }
 
   const handleClose = () => {
-    resetForm();
-    setMode('login');
-    setStep(1);
-    setCapturedImages([]);
-    onClose();
-  };
+    resetForm()
+    setMode('login')
+    setStep(1)
+    setCapturedImages([])
+    onClose()
+  }
 
   return (
     <div className="auth-modal-overlay" onClick={handleClose}>
-      <div className="auth-modal-container" onClick={(e) => e.stopPropagation()}>
-        <button className="auth-modal-close" onClick={handleClose}>✕</button>
+      <div
+        className="auth-modal-container"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button className="auth-modal-close" onClick={handleClose}>
+          ✕
+        </button>
 
         {/* LOGIN MODE */}
         {mode === 'login' && (
@@ -216,7 +232,9 @@ function AuthModal({ isOpen, onClose, onLogin }) {
                   type="text"
                   placeholder="Enter your student ID"
                   value={loginData.email}
-                  onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+                  onChange={(e) =>
+                    setLoginData({ ...loginData, email: e.target.value })
+                  }
                   required
                   disabled={loading}
                 />
@@ -228,7 +246,9 @@ function AuthModal({ isOpen, onClose, onLogin }) {
                   type="password"
                   placeholder="Enter your password"
                   value={loginData.password}
-                  onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                  onChange={(e) =>
+                    setLoginData({ ...loginData, password: e.target.value })
+                  }
                   required
                   disabled={loading}
                 />
@@ -240,16 +260,23 @@ function AuthModal({ isOpen, onClose, onLogin }) {
 
               {error && <div className="error-message-modal">{error}</div>}
 
-              <button type="submit" className="btn-modal-primary" disabled={loading}>
+              <button
+                type="submit"
+                className="btn-modal-primary"
+                disabled={loading}
+              >
                 {loading ? 'Signing in...' : 'Sign in'}
               </button>
             </form>
 
             <div className="auth-modal-footer">
               <p>Don't have an account?</p>
-              <button 
-                className="btn-modal-link" 
-                onClick={() => { setMode('register'); resetForm(); }}
+              <button
+                className="btn-modal-link"
+                onClick={() => {
+                  setMode('register')
+                  resetForm()
+                }}
               >
                 Register your Account
               </button>
@@ -274,7 +301,12 @@ function AuthModal({ isOpen, onClose, onLogin }) {
                   type="text"
                   placeholder="STU0001"
                   value={registerData.student_id}
-                  onChange={(e) => setRegisterData({ ...registerData, student_id: e.target.value })}
+                  onChange={(e) =>
+                    setRegisterData({
+                      ...registerData,
+                      student_id: e.target.value,
+                    })
+                  }
                   required
                 />
               </div>
@@ -285,7 +317,9 @@ function AuthModal({ isOpen, onClose, onLogin }) {
                   type="text"
                   placeholder="John Doe"
                   value={registerData.name}
-                  onChange={(e) => setRegisterData({ ...registerData, name: e.target.value })}
+                  onChange={(e) =>
+                    setRegisterData({ ...registerData, name: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -296,16 +330,18 @@ function AuthModal({ isOpen, onClose, onLogin }) {
                   type="email"
                   placeholder="student@example.com"
                   value={registerData.email}
-                  onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
+                  onChange={(e) =>
+                    setRegisterData({ ...registerData, email: e.target.value })
+                  }
                   required
                 />
               </div>
 
               {error && <div className="error-message-modal">{error}</div>}
 
-              <button 
-                type="button" 
-                className="btn-modal-primary" 
+              <button
+                type="button"
+                className="btn-modal-primary"
                 onClick={handleRegisterNext}
               >
                 Next Step →
@@ -314,9 +350,12 @@ function AuthModal({ isOpen, onClose, onLogin }) {
 
             <div className="auth-modal-footer">
               <p>Already have an account?</p>
-              <button 
-                className="btn-modal-link" 
-                onClick={() => { setMode('login'); resetForm(); }}
+              <button
+                className="btn-modal-link"
+                onClick={() => {
+                  setMode('login')
+                  resetForm()
+                }}
               >
                 Login here
               </button>
@@ -340,7 +379,12 @@ function AuthModal({ isOpen, onClose, onLogin }) {
                   type="password"
                   placeholder="Min. 6 characters"
                   value={registerData.password}
-                  onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
+                  onChange={(e) =>
+                    setRegisterData({
+                      ...registerData,
+                      password: e.target.value,
+                    })
+                  }
                   required
                   minLength="6"
                 />
@@ -352,7 +396,12 @@ function AuthModal({ isOpen, onClose, onLogin }) {
                   type="password"
                   placeholder="Re-enter password"
                   value={registerData.confirmPassword}
-                  onChange={(e) => setRegisterData({ ...registerData, confirmPassword: e.target.value })}
+                  onChange={(e) =>
+                    setRegisterData({
+                      ...registerData,
+                      confirmPassword: e.target.value,
+                    })
+                  }
                   required
                 />
               </div>
@@ -363,16 +412,23 @@ function AuthModal({ isOpen, onClose, onLogin }) {
                   type="text"
                   placeholder="Computer Science"
                   value={registerData.department}
-                  onChange={(e) => setRegisterData({ ...registerData, department: e.target.value })}
+                  onChange={(e) =>
+                    setRegisterData({
+                      ...registerData,
+                      department: e.target.value,
+                    })
+                  }
                   required
                 />
               </div>
 
               <div className="form-group-modal">
                 <label>Year</label>
-                <select 
-                  value={registerData.year} 
-                  onChange={(e) => setRegisterData({ ...registerData, year: e.target.value })}
+                <select
+                  value={registerData.year}
+                  onChange={(e) =>
+                    setRegisterData({ ...registerData, year: e.target.value })
+                  }
                   required
                 >
                   <option value="">Select Year</option>
@@ -386,16 +442,16 @@ function AuthModal({ isOpen, onClose, onLogin }) {
               {error && <div className="error-message-modal">{error}</div>}
 
               <div className="button-group">
-                <button 
-                  type="button" 
-                  className="btn-modal-secondary" 
+                <button
+                  type="button"
+                  className="btn-modal-secondary"
                   onClick={() => setStep(1)}
                 >
                   ← Back
                 </button>
-                <button 
-                  type="button" 
-                  className="btn-modal-primary" 
+                <button
+                  type="button"
+                  className="btn-modal-primary"
                   onClick={handleRegisterNext}
                 >
                   Next: Face Scan →
@@ -413,7 +469,8 @@ function AuthModal({ isOpen, onClose, onLogin }) {
               <h2>Photo Verification</h2>
               <p>Take a selfie</p>
               <p className="sub-text">
-                For verifying your identity we will match your selfie to your provided document photo
+                For verifying your identity we will match your selfie to your
+                provided document photo
               </p>
             </div>
 
@@ -428,9 +485,10 @@ function AuthModal({ isOpen, onClose, onLogin }) {
                     height: 480,
                     facingMode: 'user',
                   }}
+                  mirrored={true}
                   className="webcam-feed"
                 />
-                
+
                 {/* Face Guide Overlay */}
                 <div className="face-guide-overlay">
                   <div className="face-circle">
@@ -445,7 +503,7 @@ function AuthModal({ isOpen, onClose, onLogin }) {
                 </div>
 
                 {/* Capture Button */}
-                <button 
+                <button
                   className="capture-button"
                   onClick={captureImage}
                   disabled={loading || capturedImages.length >= 10}
@@ -464,9 +522,13 @@ function AuthModal({ isOpen, onClose, onLogin }) {
                     {capturedImages.map((img, idx) => (
                       <div key={idx} className="preview-item">
                         <img src={img} alt={`Capture ${idx + 1}`} />
-                        <button 
+                        <button
                           className="preview-delete"
-                          onClick={() => setCapturedImages(capturedImages.filter((_, i) => i !== idx))}
+                          onClick={() =>
+                            setCapturedImages(
+                              capturedImages.filter((_, i) => i !== idx),
+                            )
+                          }
                         >
                           ✕
                         </button>
@@ -479,24 +541,33 @@ function AuthModal({ isOpen, onClose, onLogin }) {
               {/* Security Info */}
               <div className="security-info">
                 <div className="security-icon">🔒</div>
-                <p>Stored data is encrypted securely and only used for identity verification</p>
+                <p>
+                  Stored data is encrypted securely and only used for identity
+                  verification
+                </p>
               </div>
 
-              {message && <div className="success-message-modal">{message}</div>}
+              {message && (
+                <div className="success-message-modal">{message}</div>
+              )}
               {error && <div className="error-message-modal">{error}</div>}
 
               {/* Action Buttons */}
               <div className="button-group">
-                <button 
-                  className="btn-modal-secondary" 
-                  onClick={() => { setMode('register'); setStep(2); setCapturedImages([]); }}
+                <button
+                  className="btn-modal-secondary"
+                  onClick={() => {
+                    setMode('register')
+                    setStep(2)
+                    setCapturedImages([])
+                  }}
                   disabled={loading}
                 >
                   ← Back
                 </button>
                 {capturedImages.length >= 5 && (
-                  <button 
-                    className="btn-modal-primary" 
+                  <button
+                    className="btn-modal-primary"
                     onClick={handleCompleteRegistration}
                     disabled={loading}
                   >
@@ -509,7 +580,7 @@ function AuthModal({ isOpen, onClose, onLogin }) {
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default AuthModal;
+export default AuthModal
