@@ -98,15 +98,15 @@ function LandingPage() {
             ))}
           </nav>
           {/* Desktop actions */}
-          <div className="nav-actions hidden md:flex gap-2">
+          <div className="nav-actions hidden md:flex gap-3">
             <button
-              className="px-5 py-2 rounded-full font-semibold bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow hover:scale-105 transition-all"
+              className="btn-3d px-6 py-2.5 rounded-xl font-bold bg-white text-indigo-600 shadow-sm border border-gray-100 hover:text-indigo-700 uppercase tracking-widest text-xs"
               onClick={() => navigate('/login')}
             >
               Login
             </button>
             <button
-              className="px-5 py-2 rounded-full font-semibold bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow hover:scale-105 transition-all"
+              className="btn-3d px-6 py-2.5 rounded-xl font-bold bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md hover:shadow-lg uppercase tracking-widest text-xs"
               onClick={() => navigate('/register')}
             >
               Register

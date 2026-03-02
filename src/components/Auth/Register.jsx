@@ -187,18 +187,24 @@ function Register() {
   }
 
   return (
-    <div className="login-container px-2 py-8 min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-400 to-purple-500">
-      <div className="login-card w-full max-w-xs sm:max-w-md md:max-w-lg p-4 sm:p-8 rounded-2xl shadow-lg bg-white">
-        <div className="login-header">
-          <h1>✍️ Attendify Registration</h1>
-          <p>Create your account and register your face</p>
+    <div className="flex flex-col items-center justify-center flex-1 w-full px-4 py-8 pb-24 relative z-10 min-h-[calc(100vh-4rem)]">
+      <div className="card-3d w-full max-w-[450px] p-6 sm:p-8 relative bg-white/80 backdrop-blur-xl">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-black text-gray-900 tracking-tight drop-shadow-sm mb-2">
+            ✍️ Registration
+          </h1>
+          <p className="text-gray-500 text-[10px] sm:text-xs font-bold uppercase tracking-widest">
+            Create Account & Register Face
+          </p>
         </div>
 
         {step === 1 && (
-          <div className="login-form">
+          <div className="flex flex-col gap-5">
             {/* Student ID with Real-Time Validation */}
-            <div className="form-group">
-              <label>📝 Student ID</label>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                📝 Student ID
+              </label>
               <input
                 className={`input-field ${
                   studentIdStatus === 'available'
@@ -216,7 +222,7 @@ function Register() {
               {/* Real-time feedback */}
               {studentIdMessage && (
                 <div
-                  className={`mt-2 text-sm font-semibold ${
+                  className={`mt-1 text-xs font-bold ${
                     studentIdStatus === 'available'
                       ? 'text-green-600'
                       : studentIdStatus === 'taken'
@@ -230,8 +236,10 @@ function Register() {
             </div>
 
             {/* Basic fields */}
-            <div className="form-group">
-              <label>👤 Full Name</label>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                👤 Full Name
+              </label>
               <input
                 className="input-field"
                 name="name"
@@ -241,8 +249,10 @@ function Register() {
                 required
               />
             </div>
-            <div className="form-group">
-              <label>📧 Email</label>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                📧 Email
+              </label>
               <input
                 className="input-field"
                 type="email"
@@ -253,8 +263,10 @@ function Register() {
                 required
               />
             </div>
-            <div className="form-group">
-              <label>🔒 Password</label>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                🔒 Password
+              </label>
               <input
                 className="input-field"
                 type="password"
@@ -266,8 +278,10 @@ function Register() {
                 minLength={6}
               />
             </div>
-            <div className="form-group">
-              <label>🏢 Department</label>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                🏢 Department
+              </label>
               <input
                 className="input-field"
                 name="department"
@@ -277,10 +291,12 @@ function Register() {
                 required
               />
             </div>
-            <div className="form-group">
-              <label>📚 Year</label>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                📚 Year
+              </label>
               <select
-                className="input-field"
+                className="input-field text-gray-700 cursor-pointer"
                 name="year"
                 value={formData.year}
                 onChange={onChange}
@@ -294,9 +310,13 @@ function Register() {
               </select>
             </div>
 
-            {error && <div className="error-message">{error}</div>}
+            {error && (
+              <div className="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-xl text-sm font-semibold shadow-sm mb-2 whitespace-pre-wrap">
+                {error}
+              </div>
+            )}
             <button
-              className="btn-login w-full"
+              className="btn-3d w-full py-4 mt-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl font-black text-lg shadow-[0_8px_20px_rgba(99,102,241,0.4)] disabled:opacity-50 disabled:shadow-none"
               type="button"
               onClick={() => setStep(2)}
               disabled={studentIdStatus === 'taken'}
@@ -307,12 +327,12 @@ function Register() {
         )}
 
         {step === 2 && (
-          <div className="login-form flex flex-col gap-4">
+          <div className="flex flex-col gap-5">
             {/* Webcam for supported/desktop browsers */}
             {supportsCamera ? (
               <>
                 <div
-                  className="webcam-container mx-auto rounded-xl overflow-hidden"
+                  className="mx-auto rounded-3xl overflow-hidden shadow-md border-[6px] border-white"
                   style={{ width: '100%', maxWidth: 360, aspectRatio: '1/1' }}
                 >
                   <Webcam
@@ -329,10 +349,9 @@ function Register() {
                     playsInline
                   />
                 </div>
-                <div className="flex flex-col sm:flex-row gap-3 w-full mt-4">
+                <div className="flex flex-col gap-3 w-full mt-2">
                   <button
-                    className="btn-login flex-1 py-3 text-base sm:text-lg font-bold shadow-md hover:shadow-lg transition-all rounded-xl"
-                    style={{ background: '#4f46e5' }}
+                    className="btn-3d w-full py-3 sm:py-4 bg-indigo-50 text-indigo-700 border border-indigo-100/50 rounded-xl font-bold min-w-[120px] shadow-sm disabled:opacity-50"
                     type="button"
                     onClick={() => {
                       const shot = webcamRef.current?.getScreenshot()
@@ -343,33 +362,33 @@ function Register() {
                     }}
                     disabled={loading || images.length >= 10}
                   >
-                    📸 Capture ({images.length}/10)
+                    📷 Capture ({images.length}/10)
                   </button>
-                  <button
-                    className="btn-login flex-1 py-3 text-base sm:text-lg font-bold shadow-md hover:shadow-lg transition-all rounded-xl"
-                    style={{ background: '#64748b' }}
-                    type="button"
-                    onClick={() => setStep(1)}
-                    disabled={loading}
-                  >
-                    ← Back
-                  </button>
-                  <button
-                    className="btn-login flex-1 py-3 text-base sm:text-lg font-bold shadow-md hover:shadow-lg transition-all rounded-xl"
-                    style={{ background: '#10b981' }}
-                    type="button"
-                    onClick={submitRegistration}
-                    disabled={loading || images.length < 5}
-                  >
-                    {loading ? '⏳ Processing...' : '✅ Register'}
-                  </button>
+                  <div className="flex gap-3">
+                    <button
+                      className="btn-3d flex-1 py-3 bg-gray-50 text-gray-600 border border-gray-200 rounded-xl font-bold shadow-sm disabled:opacity-50"
+                      type="button"
+                      onClick={() => setStep(1)}
+                      disabled={loading}
+                    >
+                      ← Back
+                    </button>
+                    <button
+                      className="btn-3d flex-1 py-3 bg-gradient-to-r from-emerald-400 to-teal-500 text-white rounded-xl font-black shadow-[0_4px_15px_rgba(16,185,129,0.3)] disabled:opacity-50 disabled:shadow-none"
+                      type="button"
+                      onClick={submitRegistration}
+                      disabled={loading || images.length < 5}
+                    >
+                      {loading ? '⏳ Wait...' : '✅ Save'}
+                    </button>
+                  </div>
                 </div>
               </>
             ) : (
               /* Mobile fallback: native camera via file input (works on HTTP/LAN) */
               <>
-                <div className="mx-auto text-center w-full">
-                  <p className="mb-3">
+                <div className="mx-auto text-center w-full bg-indigo-50 border border-indigo-100 p-6 rounded-2xl">
+                  <p className="mb-4 text-indigo-800 font-bold text-sm">
                     📱 Browser blocked camera. Use phone camera below.
                   </p>
                   <input
@@ -379,12 +398,12 @@ function Register() {
                     capture="environment"
                     multiple
                     onChange={handleFileInput}
-                    className="w-full"
+                    className="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
                   />
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-3 mt-2">
                   <button
-                    className="btn-login flex-1"
+                    className="btn-3d flex-1 py-3 bg-gray-50 text-gray-600 border border-gray-200 rounded-xl font-bold"
                     type="button"
                     onClick={() => setStep(1)}
                     disabled={loading}
@@ -392,12 +411,12 @@ function Register() {
                     ← Back
                   </button>
                   <button
-                    className="btn-login flex-1"
+                    className="btn-3d flex-1 py-3 bg-gradient-to-r from-emerald-400 to-teal-500 text-white rounded-xl font-black"
                     type="button"
                     onClick={submitRegistration}
                     disabled={loading || images.length < 5}
                   >
-                    {loading ? '⏳ Processing...' : '✅ Register'}
+                    {loading ? '⏳ Wait...' : '✅ Save'}
                   </button>
                 </div>
               </>
@@ -405,49 +424,55 @@ function Register() {
 
             {/* Preview */}
             {images.length > 0 && (
-              <div className="captured-images grid grid-cols-3 gap-2 mt-3">
+              <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mt-2">
                 {images.map((src, i) => (
                   <img
                     key={i}
                     src={src}
                     alt={`cap-${i}`}
-                    className="w-full h-24 object-cover rounded-md shadow-sm border border-gray-200"
+                    className="w-full h-16 sm:h-20 object-cover rounded-lg shadow-sm border border-gray-200"
                   />
                 ))}
               </div>
             )}
 
-            {/* Remove success message from bottom as it will be shown in Step 3 */}
-            {error && <div className="error-message mt-2">{error}</div>}
+            {/* Error Message */}
+            {error && (
+              <div className="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-xl text-sm font-semibold shadow-sm mt-2 whitespace-pre-wrap">
+                {error}
+              </div>
+            )}
           </div>
         )}
 
         {/* NEW STEP 3: Dedicated Processing/Uploading Screen */}
         {step === 3 && (
-          <div className="login-form flex flex-col items-center justify-center py-8 text-center min-h-[400px]">
+          <div className="flex flex-col items-center justify-center py-10 text-center min-h-[350px]">
             {loading && !error && (
-              <div className="w-20 h-20 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-8 shadow-sm"></div>
+              <div className="w-16 h-16 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin mb-6 drop-shadow-sm"></div>
             )}
 
             {/* Success Icon */}
             {!loading && !error && message.includes('complete') && (
-              <div className="text-6xl mb-6 bounce-animation">🎉</div>
+              <div className="text-6xl mb-6 animate-fade-in drop-shadow-md">
+                🎉
+              </div>
             )}
 
-            <h3 className="text-2xl font-extrabold text-gray-800 mb-4">
+            <h3 className="text-2xl font-black text-gray-900 mb-3 drop-shadow-sm">
               {loading
-                ? 'Processing Registration'
+                ? 'Processing...'
                 : error
                   ? 'Registration Failed'
                   : 'Success!'}
             </h3>
 
-            <div className="text-lg text-gray-600 mb-8 max-w-sm whitespace-pre-line font-medium leading-relaxed">
+            <div className="text-sm font-bold text-gray-600 mb-8 max-w-[250px] mx-auto whitespace-pre-line leading-relaxed">
               {message || (loading ? 'Uploading data to server...' : '')}
             </div>
 
             {error && (
-              <div className="text-red-600 bg-red-50 p-4 rounded-xl border border-red-200 w-full mb-6 font-semibold shadow-sm text-left whitespace-pre-line">
+              <div className="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-xl w-full text-sm font-semibold shadow-sm mb-6 text-left whitespace-pre-line">
                 {error}
               </div>
             )}
@@ -455,8 +480,7 @@ function Register() {
             {error && (
               <button
                 onClick={() => setStep(2)}
-                className="btn-login w-full py-4 text-lg font-bold rounded-xl shadow-md transition-all mt-auto"
-                style={{ background: '#64748b' }}
+                className="btn-3d w-full py-4 bg-gray-100 text-gray-700 rounded-xl font-bold text-sm shadow-sm mt-auto"
               >
                 ← Go Back and Try Again
               </button>
@@ -465,8 +489,7 @@ function Register() {
             {!loading && !error && (
               <button
                 onClick={() => (window.location.href = '/login')}
-                className="btn-login w-full py-4 text-lg font-bold rounded-xl shadow-md transition-all mt-auto"
-                style={{ background: '#10b981' }}
+                className="btn-3d w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl font-black text-sm shadow-[0_4px_15px_rgba(16,185,129,0.3)] mt-auto"
               >
                 Proceed to Login →
               </button>

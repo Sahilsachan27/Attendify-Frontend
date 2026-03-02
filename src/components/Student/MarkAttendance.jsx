@@ -171,48 +171,62 @@ function MarkAttendance({ user }) {
   }
 
   return (
-    <div className="space-y-5">
-      <div className="bg-white rounded-lg shadow-md p-5">
-        <h2 className="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-          📸 Mark Your Attendance
+    <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 animate-fade-in pb-8">
+      <div className="card-3d p-6 sm:p-8">
+        <h2 className="text-xl sm:text-2xl font-black text-gray-900 mb-3 flex items-center gap-3 tracking-tight">
+          <span className="p-2 bg-indigo-50 text-indigo-600 rounded-xl shadow-sm">
+            📸
+          </span>{' '}
+          Mark Your Attendance
         </h2>
-        <p className="text-sm text-gray-600 mb-4">
+        <p className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-6 border-b border-gray-100 pb-6">
           {cameraActive
-            ? 'Camera is active. Position your face clearly and click "Mark Attendance"'
-            : 'Click "Activate Camera" to start, then mark your attendance'}
+            ? 'Camera is active. Position your face clearly'
+            : 'Click "Activate Camera" to start'}
         </p>
 
         {/* Step Indicator */}
-        <div className="flex items-center justify-center gap-3 mb-4">
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-8">
           <div
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg ${step >= 1 ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}
+            className={`flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border-2 transition-colors ${step >= 1 ? 'bg-emerald-50 border-emerald-500 text-emerald-700 shadow-sm' : 'bg-gray-50 border-gray-200 text-gray-400'}`}
           >
-            <span className="text-lg">{step >= 1 ? '✅' : '1️⃣'}</span>
-            <span className="text-sm font-semibold">Location</span>
+            <span className="text-sm sm:text-base">
+              {step >= 1 ? '✅' : '1️⃣'}
+            </span>
+            <span className="text-xs sm:text-sm font-black uppercase tracking-wider">
+              Location
+            </span>
           </div>
-          <div className="h-0.5 w-8 bg-gray-300"></div>
+          <div className="h-0.5 w-4 sm:w-8 bg-gray-200 rounded-full"></div>
           <div
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg ${step >= 2 ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}
+            className={`flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border-2 transition-colors ${step >= 2 ? 'bg-emerald-50 border-emerald-500 text-emerald-700 shadow-sm' : 'bg-gray-50 border-gray-200 text-gray-400'}`}
           >
-            <span className="text-lg">{step >= 2 ? '✅' : '2️⃣'}</span>
-            <span className="text-sm font-semibold">Face Scan</span>
+            <span className="text-sm sm:text-base">
+              {step >= 2 ? '✅' : '2️⃣'}
+            </span>
+            <span className="text-xs sm:text-sm font-black uppercase tracking-wider">
+              Face Scan
+            </span>
           </div>
-          <div className="h-0.5 w-8 bg-gray-300"></div>
+          <div className="h-0.5 w-4 sm:w-8 bg-gray-200 rounded-full"></div>
           <div
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg ${step >= 3 ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'}`}
+            className={`flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border-2 transition-colors ${step >= 3 ? 'bg-indigo-50 border-indigo-500 text-indigo-700 shadow-sm' : 'bg-gray-50 border-gray-200 text-gray-400'}`}
           >
-            <span className="text-lg">{step >= 3 ? '⏳' : '3️⃣'}</span>
-            <span className="text-sm font-semibold">Verify</span>
+            <span className="text-sm sm:text-base">
+              {step >= 3 ? '⏳' : '3️⃣'}
+            </span>
+            <span className="text-xs sm:text-sm font-black uppercase tracking-wider">
+              Verify
+            </span>
           </div>
         </div>
 
-        {/* Camera Toggle Button */}
-        <div className="mb-4 flex flex-col sm:flex-row items-center justify-center gap-3">
-          {/* Show fallback button only if camera not supported */}
+        {/* Camera Toggle Button & Input */}
+        <div className="mb-6 flex flex-col sm:flex-row items-center justify-center gap-3">
           {!supportsCamera && (
             <button
               onClick={() => setShowFileInput(true)}
-              className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold border-2 border-gray-300 mb-2"
+              className="px-6 py-3 bg-white text-gray-700 rounded-xl font-bold uppercase tracking-widest text-xs border-2 border-gray-200 shadow-sm hover:border-indigo-300 hover:text-indigo-600 transition-all w-full sm:w-auto"
             >
               📱 Use Phone Photo
             </button>
@@ -220,7 +234,7 @@ function MarkAttendance({ user }) {
           <button
             onClick={toggleCamera}
             disabled={loading}
-            className="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all disabled:opacity-50"
+            className={`btn-3d px-6 py-3 rounded-xl font-bold uppercase tracking-widest text-xs w-full sm:w-auto transition-all text-white shadow-lg flex items-center justify-center gap-2 ${cameraActive ? 'bg-gradient-to-r from-rose-500 to-red-600 shadow-[0_8px_20px_rgba(225,29,72,0.4)]' : 'bg-gradient-to-r from-indigo-500 to-purple-600 shadow-[0_8px_20px_rgba(99,102,241,0.4)]'} disabled:opacity-50`}
           >
             {cameraActive ? (
               <>
@@ -235,48 +249,37 @@ function MarkAttendance({ user }) {
             )}
           </button>
           {cameraActive && (
-            <div className="flex items-center gap-2 px-4 py-2 bg-red-50 border-2 border-red-500 rounded-lg mt-2 sm:mt-0">
-              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-              <span className="text-sm font-semibold text-red-700">
-                Camera Active
+            <div className="flex items-center gap-2 px-4 py-2 bg-rose-50 border border-rose-200 rounded-xl mt-2 sm:mt-0 shadow-sm indicator-pulse">
+              <div className="w-2.5 h-2.5 bg-rose-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(225,29,72,0.6)]"></div>
+              <span className="text-[10px] font-black text-rose-700 uppercase tracking-widest">
+                Live
               </span>
             </div>
           )}
         </div>
 
-        {/* File input fallback for mobile users (only show if requested or no camera support) */}
         {(showFileInput || !supportsCamera) && (
           <input
             type="file"
             accept="image/*"
             capture="environment"
             onChange={handleFileSelect}
-            className="block w-full mb-4"
-            style={{ maxWidth: 300 }}
+            className="input-field block w-full mb-6 max-w-sm mx-auto p-3"
           />
         )}
 
         {/* Webcam Feed or File Preview */}
         <div
-          className="relative rounded-xl overflow-hidden shadow-lg mb-4 flex items-center justify-center mx-auto"
-          style={{
-            width: '100%',
-            maxWidth: 400,
-            aspectRatio: '1 / 1',
-            height: 'auto',
-          }}
+          className="relative rounded-3xl overflow-hidden shadow-[0_10px_40px_-10px_rgba(0,0,0,0.2)] mb-8 flex items-center justify-center mx-auto bg-gray-900 border-4 border-gray-800"
+          style={{ width: '100%', maxWidth: 400, aspectRatio: '1/1' }}
         >
           {cameraActive ? (
-            <div className="w-full h-full flex items-center justify-center">
+            <div className="w-full h-full relative">
               <Webcam
                 ref={webcamRef}
                 audio={false}
                 screenshotFormat="image/jpeg"
-                videoConstraints={{
-                  width: 400,
-                  height: 400,
-                  facingMode: 'user',
-                }}
+                videoConstraints={{ facingMode: 'user' }}
                 mirrored={true}
                 className="w-full h-full object-cover"
                 screenshotQuality={1}
@@ -284,112 +287,120 @@ function MarkAttendance({ user }) {
                   objectFit: 'cover',
                   width: '100%',
                   height: '100%',
-                  aspectRatio: '1 / 1',
+                  aspectRatio: '1/1',
                 }}
               />
-              {/* Face Guide Overlay */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-32 h-32 sm:w-40 sm:h-40 border-4 border-green-400 rounded-full opacity-30"></div>
-              </div>
-              {/* Live Indicator */}
-              <div className="absolute top-4 right-4 flex items-center gap-2 bg-red-500 px-3 py-1.5 rounded-full">
-                <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                <span className="text-white text-xs font-bold">LIVE</span>
+                <div className="w-48 h-48 border-4 border-emerald-400/50 rounded-full animate-pulse shadow-[0_0_30px_rgba(52,211,153,0.3)]"></div>
               </div>
             </div>
           ) : fileImage ? (
             <img
               src={fileImage}
               alt="Selected"
-              className="w-full h-full object-cover rounded-xl"
-              style={{ aspectRatio: '1 / 1', maxWidth: 400 }}
+              className="w-full h-full object-cover"
             />
           ) : (
-            <div className="text-center text-white px-6 w-full">
-              <div className="text-6xl mb-4">📷</div>
-              <h3 className="text-xl font-bold mb-2">Camera Inactive</h3>
-              <p className="text-gray-400">
-                Click "Activate Camera" or use the phone camera input
+            <div className="text-center text-white px-6 w-full flex flex-col items-center justify-center h-full">
+              <div className="w-20 h-20 bg-gray-800 rounded-full flex items-center justify-center text-4xl mb-4 shadow-inner border border-gray-700">
+                📷
+              </div>
+              <h3 className="text-lg font-black tracking-tight mb-1 text-gray-300">
+                Camera Inactive
+              </h3>
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">
+                Ready for capture
               </p>
             </div>
           )}
         </div>
 
         {/* Attendance Info */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-          <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
-            <p className="text-xs text-gray-600 font-semibold mb-1">
-              👤 Student
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div className="glass bg-gray-50/50 rounded-2xl p-4 border border-gray-100">
+            <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mb-2 shadow-inner">
+              👤
+            </div>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">
+              Student
             </p>
-            <p className="text-sm font-bold text-gray-900">{user.name}</p>
-            <p className="text-xs text-gray-500">
+            <p className="text-sm font-black text-gray-800 tracking-tight truncate">
+              {user.name}
+            </p>
+            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">
               {user.student_id || user.id}
             </p>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
-            <p className="text-xs text-gray-600 font-semibold mb-1">
-              📍 Location
+          <div className="glass bg-gray-50/50 rounded-2xl p-4 border border-gray-100">
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 shadow-inner ${location ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'}`}
+            >
+              📍
+            </div>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">
+              Location
             </p>
             <p
-              className={`text-sm font-bold ${location ? 'text-green-600' : 'text-red-600'}`}
+              className={`text-sm font-black tracking-tight ${location ? 'text-emerald-700' : 'text-rose-600'}`}
             >
-              {location ? '✅ Acquired' : '⏳ Pending'}
+              {location ? 'Acquired' : 'Pending'}
             </p>
             {location && (
-              <p className="text-xs text-gray-500">
+              <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider font-mono">
                 {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
               </p>
             )}
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
-            <p className="text-xs text-gray-600 font-semibold mb-1">
-              📅 Date & Time
+          <div className="glass bg-gray-50/50 rounded-2xl p-4 border border-gray-100">
+            <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mb-2 shadow-inner">
+              📅
+            </div>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">
+              Date & Time
             </p>
-            <p className="text-sm font-bold text-gray-900">
+            <p className="text-sm font-black text-gray-800 tracking-tight">
               {new Date().toLocaleDateString()}
             </p>
-            <p className="text-xs text-gray-500">
+            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider font-mono">
               {new Date().toLocaleTimeString()}
             </p>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-4">
+        <div className="flex flex-col sm:flex-row gap-4 mb-8">
           {!location ? (
             <button
               onClick={getLocation}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all disabled:opacity-50"
+              className="btn-3d flex-1 px-6 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl font-black uppercase tracking-widest text-sm shadow-[0_8px_20px_rgba(59,130,246,0.4)] transition-all disabled:opacity-50"
               disabled={loading}
             >
-              📍 Get My Location
+              📍 Get Location
             </button>
           ) : (
             <>
-              {/* Call markAttendance with fileImage if present (mobile) */}
               <button
                 onClick={() => markAttendance(fileImage)}
                 disabled={loading || !location || (!cameraActive && !fileImage)}
-                className="flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-3d flex-1 px-6 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl font-black uppercase tracking-widest text-sm shadow-[0_8px_20px_rgba(16,185,129,0.4)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {loading ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <>
+                    <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>{' '}
                     Processing...
-                  </span>
+                  </>
                 ) : (
-                  '✅ Mark Attendance Now'
+                  '✅ Mark Attendance'
                 )}
               </button>
-
               <button
                 onClick={getLocation}
                 disabled={loading}
-                className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold border-2 border-gray-300 hover:bg-gray-200 transition-all disabled:opacity-50"
+                className="btn-3d px-6 py-4 bg-white text-gray-700 rounded-xl font-black uppercase tracking-widest text-xs border-2 border-gray-200 hover:border-indigo-300 hover:text-indigo-600 transition-all shadow-sm disabled:opacity-50"
               >
-                🔄 Refresh Location
+                🔄 Refresh
               </button>
             </>
           )}
@@ -397,69 +408,55 @@ function MarkAttendance({ user }) {
 
         {/* Messages */}
         {message && (
-          <div className="bg-green-50 border-2 border-green-500 rounded-lg p-4 mb-4">
-            <pre className="text-sm text-green-700 font-medium whitespace-pre-wrap">
+          <div className="glass bg-emerald-50/80 border border-emerald-200 rounded-xl p-4 mb-6 shadow-sm flex gap-3 items-start animate-fade-in">
+            <span className="text-xl">✨</span>
+            <p className="text-sm font-bold text-emerald-800 leading-relaxed">
               {message}
-            </pre>
+            </p>
           </div>
         )}
 
         {error && (
-          <div className="bg-red-50 border-2 border-red-500 rounded-lg p-4 mb-4">
-            <pre className="text-sm text-red-700 font-medium whitespace-pre-wrap">
+          <div className="glass bg-rose-50/80 border border-rose-200 rounded-xl p-4 mb-6 shadow-sm flex gap-3 items-start animate-fade-in">
+            <span className="text-xl">⚠️</span>
+            <pre className="text-sm font-bold text-rose-800 leading-relaxed font-sans whitespace-pre-wrap">
               {error}
             </pre>
           </div>
         )}
 
         {/* Instructions */}
-        <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4">
-          <h3 className="text-sm font-bold text-blue-900 mb-2 flex items-center gap-2">
-            💡 Quick Tips for Successful Attendance with Attendify
+        <div className="glass bg-indigo-50/50 border border-indigo-100 rounded-2xl p-6 relative overflow-hidden">
+          <div className="absolute -right-6 -top-6 w-24 h-24 bg-indigo-200 rounded-full opacity-20 blur-2xl"></div>
+          <h3 className="text-sm font-black text-indigo-900 mb-4 flex items-center gap-2 tracking-tight">
+            💡 Quick Tips for Success
           </h3>
-          <ul className="space-y-1 text-xs text-blue-800">
-            <li className="flex items-start gap-2">
-              <span className="text-blue-500">•</span>
-              <span>
-                <strong>Activate Camera First:</strong> Click the "Activate
-                Camera" button before marking attendance
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-bold text-indigo-800/80">
+            <div className="flex items-center gap-2 bg-white/50 p-2 rounded-lg border border-indigo-50/50">
+              <span className="w-5 h-5 rounded-full bg-indigo-100 flex items-center justify-center text-[10px] text-indigo-600">
+                1
               </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-blue-500">•</span>
-              <span>
-                <strong>Good Lighting:</strong> Ensure your face is well-lit
-                (avoid backlighting)
+              <span>Look directly at the camera</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/50 p-2 rounded-lg border border-indigo-50/50">
+              <span className="w-5 h-5 rounded-full bg-indigo-100 flex items-center justify-center text-[10px] text-indigo-600">
+                2
               </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-blue-500">•</span>
-              <span>
-                <strong>Face Camera:</strong> Look directly at the camera, not
-                sideways
+              <span>Ensure good lighting (no backlight)</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/50 p-2 rounded-lg border border-indigo-50/50">
+              <span className="w-5 h-5 rounded-full bg-indigo-100 flex items-center justify-center text-[10px] text-indigo-600">
+                3
               </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-blue-500">•</span>
-              <span>
-                <strong>Distance:</strong> Stay 1-2 feet away from the camera
+              <span>Remove glasses, masks, or hats</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/50 p-2 rounded-lg border border-indigo-50/50">
+              <span className="w-5 h-5 rounded-full bg-indigo-100 flex items-center justify-center text-[10px] text-indigo-600">
+                4
               </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-blue-500">•</span>
-              <span>
-                <strong>Remove Obstacles:</strong> Take off glasses, masks, or
-                caps if possible
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-blue-500">•</span>
-              <span>
-                <strong>Close Camera:</strong> Click "Close Camera" when done to
-                save resources
-              </span>
-            </li>
-          </ul>
+              <span>Stay 1-2 feet from the lens</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
