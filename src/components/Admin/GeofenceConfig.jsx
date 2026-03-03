@@ -20,7 +20,7 @@ function GeofenceConfig() {
   const fetchConfig = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_REACT_APP_API_URL || 'http://localhost:5000/api'}/admin/geofence-config`,
+        `${import.meta.env.VITE_REACT_APP_API_URL || 'https://api.attendifyy.in/api'}/admin/geofence-config`,
       )
       if (response.ok) {
         const data = await response.json()
@@ -49,7 +49,7 @@ function GeofenceConfig() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_REACT_APP_API_URL || 'http://localhost:5000/api'}/admin/geofence-config`,
+        `${import.meta.env.VITE_REACT_APP_API_URL || 'https://api.attendifyy.in/api'}/admin/geofence-config`,
         {
           method: 'PUT',
           headers: {
