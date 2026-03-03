@@ -124,7 +124,13 @@ function StudentDashboard({ user, onLogout }) {
               {Object.entries(tabs).map(([key, { icon, label }]) => (
                 <MenuItem
                   key={key}
-                  icon={<span className="text-base sm:text-lg">{icon}</span>}
+                  icon={
+                    <span
+                      className={`text-xl transition-transform ${activeTab === key ? 'scale-110 drop-shadow-md' : 'opacity-80'}`}
+                    >
+                      {icon}
+                    </span>
+                  }
                   active={activeTab === key}
                   onClick={() => handleTabClick(key)}
                   style={
@@ -136,16 +142,7 @@ function StudentDashboard({ user, onLogout }) {
                       : {}
                   }
                 >
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={`text-xl transition-transform ${activeTab === key ? 'scale-110 drop-shadow-md' : 'opacity-80'}`}
-                    >
-                      {icon}
-                    </span>
-                    {!collapsed && (
-                      <span className="tracking-wide">{label}</span>
-                    )}
-                  </div>
+                  {!collapsed && <span className="tracking-wide">{label}</span>}
                 </MenuItem>
               ))}
             </Menu>
@@ -214,7 +211,7 @@ function StudentDashboard({ user, onLogout }) {
       )}
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col relative w-full lg:w-auto h-[100dvh]">
+      <div className="flex-1 flex flex-col relative w-full lg:w-auto h-[100dvh] min-w-0">
         <div className="flex-1 overflow-y-auto">
           <header className="h-16 lg:h-20 glass border-b border-white/40 sticky top-0 z-20 flex items-center justify-between px-4 sm:px-8 mb-4 lg:mb-8">
             <div className="flex items-center gap-3 sm:gap-4">

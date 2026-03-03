@@ -350,3 +350,14 @@
     border-radius: 12px;
   }
 }
+
+/* Mark Attendance Camera Frame - responsive sizing */
+.mark-attendance-camera {
+  max-width: 280px;
+}
+
+@media (min-width: 640px) {
+  .mark-attendance-camera {
+    max-width: 400px;
+  }
+}

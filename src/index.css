@@ -40,7 +40,7 @@ body,
       box-shadow 0.2s ease;
   }
 
-  .card-3d:active {
+  .card-3d:active:not(:has(:active)) {
     @apply shadow-[0_2px_10px_-2px_rgba(0,0,0,0.1),_inset_0_2px_4px_rgba(0,0,0,0.05)];
     transform: scale(0.97) translateY(2px);
   }
