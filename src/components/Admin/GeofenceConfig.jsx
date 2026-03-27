@@ -87,7 +87,7 @@ function GeofenceConfig() {
   return (
     <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 animate-fade-in pb-8">
       <div className="flex items-center gap-4 mb-2 sm:mb-6">
-        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-2xl shadow-lg text-white">
+        <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-2xl shadow-sm text-blue-600">
           🌍
         </div>
         <div>
@@ -101,11 +101,7 @@ function GeofenceConfig() {
       </div>
 
       {/* Current Status */}
-      <div className="card-3d p-6 sm:p-8 relative overflow-hidden group">
-        <div
-          className={`absolute -right-10 -top-10 w-40 h-40 rounded-full opacity-10 blur-2xl group-hover:scale-150 transition-transform duration-700 ${config.enabled ? 'bg-emerald-500' : 'bg-rose-500'}`}
-        ></div>
-
+      <div className="card-3d-modern p-6 sm:p-8 relative overflow-hidden group">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 relative z-10 border-b border-gray-100 pb-6">
           <h3 className="text-lg font-black text-gray-800 tracking-tight">
             Active Coverage Area
@@ -130,24 +126,24 @@ function GeofenceConfig() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 relative z-10">
-          <div className="glass p-4 rounded-2xl flex flex-col gap-1 border border-indigo-50 hover:border-indigo-100 transition-colors">
-            <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest flex items-center gap-2">
+          <div className="bg-gray-50 border border-gray-100 p-4 rounded-2xl flex flex-col gap-1 hover:border-blue-100 transition-colors">
+            <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest flex items-center gap-2">
               <span className="text-base">📍</span> Latitude
             </span>
             <span className="text-xl font-black text-gray-800 font-mono tracking-tighter">
               {config.latitude}°
             </span>
           </div>
-          <div className="glass p-4 rounded-2xl flex flex-col gap-1 border border-purple-50 hover:border-purple-100 transition-colors">
-            <span className="text-[10px] font-bold text-purple-500 uppercase tracking-widest flex items-center gap-2">
+          <div className="bg-gray-50 border border-gray-100 p-4 rounded-2xl flex flex-col gap-1 hover:border-blue-100 transition-colors">
+            <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest flex items-center gap-2">
               <span className="text-base">📍</span> Longitude
             </span>
             <span className="text-xl font-black text-gray-800 font-mono tracking-tighter">
               {config.longitude}°
             </span>
           </div>
-          <div className="glass p-4 rounded-2xl flex flex-col gap-1 border border-pink-50 hover:border-pink-100 transition-colors">
-            <span className="text-[10px] font-bold text-pink-500 uppercase tracking-widest flex items-center gap-2">
+          <div className="bg-gray-50 border border-gray-100 p-4 rounded-2xl flex flex-col gap-1 hover:border-blue-100 transition-colors">
+            <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest flex items-center gap-2">
               <span className="text-base">📏</span> Radius Limit
             </span>
             <span className="text-xl font-black text-gray-800 flex items-baseline gap-1">
@@ -163,16 +159,16 @@ function GeofenceConfig() {
       {/* Configuration Form */}
       <form
         onSubmit={handleSave}
-        className="card-3d p-6 sm:p-8 flex flex-col gap-6"
+        className="card-3d-modern p-6 sm:p-8 flex flex-col gap-6"
       >
-        <h3 className="text-lg font-black text-gray-800 tracking-tight flex items-center gap-3">
-          <span className="p-2 bg-gray-100 rounded-lg text-xl shadow-sm">
+        <h3 className="text-lg font-black text-gray-800 tracking-tight flex items-center gap-3 border-b border-gray-100 pb-4">
+          <span className="p-2 bg-gray-50 rounded-lg text-xl border border-gray-200">
             ⚙️
           </span>{' '}
           Update Settings
         </h3>
 
-        <div className="p-4 sm:p-5 rounded-2xl bg-gray-50 border border-gray-200 flex items-center justify-between cursor-pointer hover:bg-gray-100 transition-colors group">
+        <div className="p-4 sm:p-5 rounded-2xl bg-gray-50 border border-gray-200 flex items-center justify-between cursor-pointer hover:bg-gray-100 transition-colors group animate-fade-in">
           <div className="flex flex-col gap-1">
             <span className="font-black text-gray-800">Master Toggle</span>
             <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">
@@ -189,13 +185,13 @@ function GeofenceConfig() {
               onChange={handleInputChange}
               className="sr-only peer"
             />
-            <div className="w-14 h-7 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-emerald-500 peer-checked:to-teal-500 shadow-inner"></div>
+            <div className="w-14 h-7 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-500 shadow-inner"></div>
           </label>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-2">
-            <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+            <label className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
               📍 Campus Latitude
             </label>
             <input
@@ -206,15 +202,15 @@ function GeofenceConfig() {
               step="0.000001"
               required
               placeholder="28.6139"
-              className="input-field font-mono text-lg"
+              className="input-3d font-bold text-lg font-mono"
             />
-            <small className="text-xs text-indigo-500 font-semibold ml-1">
+            <small className="text-xs text-blue-500 font-semibold ml-1">
               Example: 28.6139 (New Delhi)
             </small>
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+            <label className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
               📍 Campus Longitude
             </label>
             <input
@@ -225,18 +221,18 @@ function GeofenceConfig() {
               step="0.000001"
               required
               placeholder="77.2090"
-              className="input-field font-mono text-lg"
+              className="input-3d font-bold text-lg font-mono"
             />
-            <small className="text-xs text-indigo-500 font-semibold ml-1">
+            <small className="text-xs text-blue-500 font-semibold ml-1">
               Example: 77.2090 (New Delhi)
             </small>
           </div>
         </div>
 
         <div className="flex flex-col gap-3">
-          <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1 flex justify-between">
+          <label className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest ml-1 flex justify-between">
             <span>📏 Allowed Radius Limit</span>
-            <span className="text-indigo-600">{config.radius} meters</span>
+            <span className="text-blue-600">{config.radius} meters</span>
           </label>
           <div className="flex gap-4 items-center bg-white p-2 rounded-2xl border border-gray-200 shadow-sm relative">
             <input
@@ -246,7 +242,7 @@ function GeofenceConfig() {
               onChange={handleInputChange}
               min="50"
               max="5000"
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600 ml-2"
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600 ml-2"
             />
             <input
               type="number"
@@ -256,7 +252,7 @@ function GeofenceConfig() {
               min="50"
               max="5000"
               required
-              className="w-24 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl font-bold text-center focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="input-3d w-24 text-center font-bold"
             />
           </div>
           <small className="text-xs text-gray-500 font-semibold ml-1">
@@ -267,7 +263,7 @@ function GeofenceConfig() {
         </div>
 
         {/* Info Box */}
-        <div className="glass p-5 rounded-2xl border border-blue-100 bg-blue-50/50 flex flex-col gap-3">
+        <div className="bg-blue-50 p-5 rounded-2xl border border-blue-100 flex flex-col gap-3 shadow-sm">
           <h4 className="font-bold text-blue-800 flex items-center gap-2 text-sm uppercase tracking-wider">
             <span>ℹ️</span> Need Campus Coordinates?
           </h4>
@@ -280,19 +276,19 @@ function GeofenceConfig() {
         </div>
 
         {message && (
-          <div className="p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 rounded-r-xl text-sm font-bold shadow-sm">
+          <div className="p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 rounded-r-xl text-sm font-bold shadow-sm animate-fade-in">
             {message}
           </div>
         )}
         {error && (
-          <div className="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-xl text-sm font-bold shadow-sm">
+          <div className="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-xl text-sm font-bold shadow-sm animate-fade-in">
             {error}
           </div>
         )}
 
         <button
           type="submit"
-          className="btn-3d w-full sm:w-auto self-end py-4 px-8 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl font-black text-lg shadow-[0_8px_20px_rgba(99,102,241,0.4)] mt-4"
+          className="w-full sm:w-auto self-end btn-3d-primary text-lg font-black mt-4"
         >
           💾 Save Configuration
         </button>

@@ -139,7 +139,7 @@ function RegisterStudent() {
   return (
     <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 animate-fade-in pb-8">
       <div className="flex items-center gap-4 mb-2 sm:mb-6">
-        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-2xl shadow-lg text-white">
+        <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-2xl shadow-sm text-blue-600">
           ➕
         </div>
         <div>
@@ -152,11 +152,11 @@ function RegisterStudent() {
         </div>
       </div>
 
-      <div className="card-3d p-6 sm:p-8">
+      <div className="card-3d-modern p-6 sm:p-8">
         {!showCamera ? (
           <form onSubmit={handleRegister} className="flex flex-col gap-6">
             <h3 className="text-lg font-black text-gray-800 tracking-tight flex items-center gap-3 border-b border-gray-100 pb-4">
-              <span className="p-2 bg-indigo-50 text-indigo-600 rounded-lg text-xl shadow-sm">
+              <span className="p-2 bg-blue-50 text-blue-600 rounded-lg text-xl shadow-sm border border-blue-100">
                 📝
               </span>{' '}
               Student Information
@@ -164,7 +164,7 @@ function RegisterStudent() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col gap-2">
-                <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                <label className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
                   Student ID
                 </label>
                 <input
@@ -173,13 +173,13 @@ function RegisterStudent() {
                   value={formData.student_id}
                   onChange={handleInputChange}
                   placeholder="STU0001"
-                  className="input-field font-mono"
+                  className="input-3d font-mono"
                   required
                   disabled={loading}
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                <label className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
                   Full Name
                 </label>
                 <input
@@ -188,7 +188,7 @@ function RegisterStudent() {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="John Doe"
-                  className="input-field"
+                  className="input-3d"
                   required
                   disabled={loading}
                 />
@@ -197,7 +197,7 @@ function RegisterStudent() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col gap-2">
-                <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                <label className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
                   Email
                 </label>
                 <input
@@ -206,13 +206,13 @@ function RegisterStudent() {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="student@example.com"
-                  className="input-field"
+                  className="input-3d"
                   required
                   disabled={loading}
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                <label className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
                   Password
                 </label>
                 <input
@@ -221,7 +221,7 @@ function RegisterStudent() {
                   value={formData.password}
                   onChange={handleInputChange}
                   placeholder="Min. 6 characters"
-                  className="input-field"
+                  className="input-3d"
                   minLength="6"
                   required
                   disabled={loading}
@@ -231,7 +231,7 @@ function RegisterStudent() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col gap-2">
-                <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                <label className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
                   Department
                 </label>
                 <input
@@ -240,20 +240,20 @@ function RegisterStudent() {
                   value={formData.department}
                   onChange={handleInputChange}
                   placeholder="Computer Science"
-                  className="input-field"
+                  className="input-3d"
                   required
                   disabled={loading}
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                <label className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
                   Year
                 </label>
                 <select
                   name="year"
                   value={formData.year}
                   onChange={handleInputChange}
-                  className="input-field text-gray-700 cursor-pointer"
+                  className="input-3d cursor-pointer"
                   required
                   disabled={loading}
                 >
@@ -279,7 +279,7 @@ function RegisterStudent() {
 
             <button
               type="submit"
-              className="btn-3d w-full mt-4 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl font-black text-lg shadow-[0_8px_20px_rgba(99,102,241,0.4)] disabled:opacity-50"
+              className="w-full mt-4 btn-3d-primary text-lg disabled:opacity-50"
               disabled={loading}
             >
               {loading ? '⏳ Processing...' : 'Next: Face Capture →'}
@@ -293,11 +293,11 @@ function RegisterStudent() {
               </h3>
               <p className="text-gray-500 font-bold text-xs uppercase tracking-wider mt-2">
                 Capture face data for{' '}
-                <span className="text-indigo-600">{formData.name}</span>
+                <span className="text-blue-600">{formData.name}</span>
               </p>
             </div>
 
-            <div className="relative rounded-3xl overflow-hidden shadow-md border-[6px] border-white w-full max-w-[400px] aspect-[4/3] bg-gray-900 mb-6">
+            <div className="relative rounded-2xl overflow-hidden card-3d-modern w-full max-w-[400px] aspect-[4/3] bg-gray-900 mb-6 flex items-center justify-center !p-1 border-4 border-white">
               <Webcam
                 ref={webcamRef}
                 audio={false}
@@ -324,7 +324,7 @@ function RegisterStudent() {
             <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
               <button
                 onClick={captureImage}
-                className="btn-3d py-3 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl font-bold shadow-[0_4px_15px_rgba(79,70,229,0.3)] disabled:opacity-50 flex items-center justify-center gap-2"
+                className="btn-3d-primary disabled:opacity-50 flex items-center justify-center gap-2"
                 disabled={loading || capturedImages.length >= 10}
               >
                 <span>📷</span> Capture ({capturedImages.length}/10)
@@ -333,7 +333,7 @@ function RegisterStudent() {
               {capturedImages.length >= 5 && (
                 <button
                   onClick={uploadImages}
-                  className="btn-3d py-3 px-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-bold shadow-[0_4px_15px_rgba(16,185,129,0.3)] disabled:opacity-50 flex items-center justify-center gap-2 animate-bounce-in"
+                  className="btn-3d-success disabled:opacity-50 flex items-center justify-center gap-2 animate-bounce-in"
                   disabled={loading}
                 >
                   {loading ? '⏳ Uploading...' : '✅ Save Face Data'}
@@ -342,7 +342,7 @@ function RegisterStudent() {
 
               <button
                 onClick={cancelRegistration}
-                className="btn-3d py-3 px-6 bg-rose-50 text-rose-600 border border-rose-200 rounded-xl font-bold shadow-sm disabled:opacity-50 hover:bg-rose-100 flex items-center justify-center gap-2"
+                className="btn-3d-danger disabled:opacity-50 flex items-center justify-center gap-2"
                 disabled={loading}
               >
                 ❌ Cancel
@@ -360,7 +360,7 @@ function RegisterStudent() {
                       <img
                         src={img}
                         alt={`Cap ${idx}`}
-                        className="w-full h-full object-cover rounded-xl shadow-md border-2 border-white"
+                        className="w-full h-full object-cover rounded-xl shadow-sm border border-gray-200"
                       />
                     </div>
                   ))}

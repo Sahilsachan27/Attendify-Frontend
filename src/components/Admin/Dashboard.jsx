@@ -63,15 +63,15 @@ function Dashboard({ onNavigate }) {
   return (
     <div className="space-y-6 sm:space-y-8 animate-fade-in max-w-7xl mx-auto">
       {/* Stats Slider - Responsive height */}
-      <div className="relative h-40 sm:h-56 rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+      <div className="relative h-40 sm:h-56 rounded-[2rem] overflow-hidden card-3d-modern !p-0">
         {slides.map((slide, index) => (
           <div
             key={index}
             className={`absolute inset-0 bg-gradient-to-br ${slide.gradient} flex items-center justify-center 
                        transition-all duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'}`}
           >
-            <div className="text-center text-white px-6 sm:px-12 backdrop-blur-sm bg-black/10 p-8 rounded-3xl border border-white/20 shadow-2xl">
-              <h2 className="text-2xl sm:text-4xl font-black mb-2 sm:mb-4 tracking-tight drop-shadow-md">
+            <div className="text-center text-white px-6 sm:px-12 backdrop-blur-md bg-white/20 p-8 rounded-3xl border border-white/30 shadow-lg">
+              <h2 className="text-2xl sm:text-4xl font-black mb-2 sm:mb-4 tracking-tight drop-shadow-sm">
                 {slide.title}
               </h2>
               <p className="text-sm sm:text-lg font-medium opacity-90 drop-shadow-sm">
@@ -81,22 +81,22 @@ function Dashboard({ onNavigate }) {
           </div>
         ))}
 
-        <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10 bg-black/20 p-2 rounded-full backdrop-blur-md">
+        <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10 bg-white/30 p-2 rounded-full backdrop-blur-md border border-white/40">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
               className={`h-2.5 rounded-full transition-all duration-500 
-                         ${index === currentSlide ? 'w-8 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]' : 'w-2.5 bg-white/40 hover:bg-white/60'}`}
+                         ${index === currentSlide ? 'w-8 bg-white shadow-md' : 'w-2.5 bg-white/60 hover:bg-white'}`}
             />
           ))}
         </div>
       </div>
 
       {loading ? (
-        <div className="text-center py-8 text-gray-600 flex items-center justify-center gap-2">
-          <div className="w-6 h-6 border-3 border-gray-200 border-t-indigo-500 rounded-full animate-spin" />
-          <span className="text-sm">Loading...</span>
+        <div className="text-center py-8 text-gray-400 flex items-center justify-center gap-2">
+          <div className="w-6 h-6 border-3 border-gray-200 border-t-blue-500 rounded-full animate-spin" />
+          <span className="text-sm font-medium">Loading stats...</span>
         </div>
       ) : (
         <>
@@ -108,7 +108,8 @@ function Dashboard({ onNavigate }) {
                 label: 'Total Students',
                 value: stats.totalStudents,
                 sublabel: 'Registered',
-                gradient: 'from-blue-500 to-cyan-400',
+                gradient: 'from-blue-500 to-cyan-500',
+                colorType: 'blue',
               },
               {
                 icon: '✅',
@@ -118,7 +119,8 @@ function Dashboard({ onNavigate }) {
                   stats.totalStudents > 0
                     ? `${((stats.presentCount / stats.totalStudents) * 100).toFixed(1)}%`
                     : '0%',
-                gradient: 'from-emerald-500 to-teal-400',
+                gradient: 'from-emerald-500 to-teal-500',
+                colorType: 'emerald',
               },
               {
                 icon: '❌',
@@ -129,37 +131,39 @@ function Dashboard({ onNavigate }) {
                     ? `${((stats.absentCount / stats.totalStudents) * 100).toFixed(1)}%`
                     : '0%',
                 gradient: 'from-rose-500 to-pink-500',
+                colorType: 'rose',
               },
               {
                 icon: '📅',
                 label: 'Today',
                 value: stats.todayAttendance,
                 sublabel: new Date().toLocaleDateString(),
-                gradient: 'from-purple-500 to-indigo-500',
+                gradient: 'from-indigo-500 to-purple-500',
+                colorType: 'indigo',
               },
             ].map((stat, idx) => (
               <div
                 key={idx}
-                className="card-3d p-5 sm:p-6 group flex flex-col justify-between overflow-hidden relative"
+                className="card-3d-modern p-5 sm:p-6 group flex flex-col justify-between overflow-hidden relative"
               >
                 <div
-                  className={`absolute -right-6 -top-6 w-24 h-24 bg-gradient-to-br ${stat.gradient} rounded-full opacity-10 blur-xl group-hover:scale-150 transition-transform duration-500`}
+                  className={`absolute -right-6 -top-6 w-24 h-24 bg-${stat.colorType}-100 rounded-full opacity-50 blur-xl group-hover:scale-150 transition-transform duration-500`}
                 ></div>
                 <div className="flex items-center justify-between mb-4 relative z-10">
                   <div
-                    className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center text-2xl shadow-lg text-white transform group-hover:rotate-6 transition-transform`}
+                    className={`w-12 h-12 rounded-xl bg-${stat.colorType}-50 flex items-center justify-center text-2xl border border-${stat.colorType}-100 text-${stat.colorType}-600 transform group-hover:rotate-6 transition-transform`}
                   >
                     {stat.icon}
                   </div>
-                  <span className="text-xs font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded-lg uppercase tracking-wider">
+                  <span className={`text-xs font-bold text-${stat.colorType}-600 bg-${stat.colorType}-50 px-2 py-1 rounded-lg uppercase tracking-wider`}>
                     {stat.sublabel}
                   </span>
                 </div>
                 <div className="relative z-10">
-                  <h3 className="text-[11px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">
+                  <h3 className="text-[11px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">
                     {stat.label}
                   </h3>
-                  <p className="text-3xl sm:text-4xl font-black text-gray-800 tracking-tight">
+                  <p className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">
                     {stat.value}
                   </p>
                 </div>
@@ -168,9 +172,9 @@ function Dashboard({ onNavigate }) {
           </div>
 
           {/* System Status - Responsive grid */}
-          <div className="card-3d p-6 sm:p-8">
+          <div className="card-3d-modern p-6 sm:p-8">
             <h3 className="text-lg sm:text-xl font-black text-gray-900 mb-6 flex items-center gap-3 tracking-tight">
-              <span className="p-2 bg-indigo-50 text-indigo-600 rounded-xl">
+              <span className="p-2 bg-blue-50 text-blue-600 rounded-xl">
                 🔧
               </span>{' '}
               System Status
@@ -204,9 +208,9 @@ function Dashboard({ onNavigate }) {
               ].map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-4 p-4 glass rounded-2xl border border-gray-100/50 hover:border-indigo-200 transition-colors group"
+                  className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-200 hover:border-blue-300 transition-colors group box-border shadow-sm"
                 >
-                  <div className="text-2xl w-10 h-10 flex items-center justify-center bg-white rounded-xl shadow-sm group-hover:scale-110 transition-transform">
+                  <div className="text-2xl w-10 h-10 flex items-center justify-center bg-white rounded-xl shadow-sm group-hover:scale-110 transition-transform border border-gray-100">
                     {item.icon}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -215,10 +219,10 @@ function Dashboard({ onNavigate }) {
                     </h4>
                     <div className="flex items-center gap-1.5 mt-1">
                       <div
-                        className={`w-2 h-2 rounded-full ${item.active ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-rose-500'}`}
+                        className={`w-2 h-2 rounded-full ${item.active ? 'bg-emerald-500 shadow-sm' : 'bg-rose-500'}`}
                       ></div>
                       <p
-                        className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider ${item.active ? 'text-emerald-600' : 'text-rose-600'}`}
+                        className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider ${item.active ? 'text-emerald-700' : 'text-rose-700'}`}
                       >
                         {item.status}
                       </p>
@@ -230,9 +234,9 @@ function Dashboard({ onNavigate }) {
           </div>
 
           {/* Quick Actions - Responsive grid */}
-          <div className="card-3d p-6 sm:p-8">
+          <div className="card-3d-modern p-6 sm:p-8">
             <h3 className="text-lg sm:text-xl font-black text-gray-900 mb-6 flex items-center gap-3 tracking-tight">
-              <span className="p-2 bg-purple-50 text-purple-600 rounded-xl">
+              <span className="p-2 bg-indigo-50 text-indigo-600 rounded-xl">
                 ⚡
               </span>{' '}
               Quick Actions
@@ -242,40 +246,40 @@ function Dashboard({ onNavigate }) {
                 {
                   icon: '➕',
                   label: 'Register Student',
-                  gradient: 'from-blue-500 to-cyan-500',
-                  shadow: 'rgba(59,130,246,0.3)',
+                  gradient: 'bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200',
                   actionName: 'register',
                 },
                 {
                   icon: '📊',
                   label: 'View Attendance',
-                  gradient: 'from-emerald-500 to-teal-500',
-                  shadow: 'rgba(16,185,129,0.3)',
+                  gradient: 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-emerald-200',
                   actionName: 'attendance',
                 },
                 {
                   icon: '🤖',
                   label: 'Train Model',
-                  gradient: 'from-purple-500 to-indigo-600',
-                  shadow: 'rgba(139,92,246,0.3)',
+                  gradient: 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200',
                   actionName: 'train',
                 },
                 {
                   icon: '⚙️',
                   label: 'Settings',
-                  gradient: 'from-amber-500 to-orange-500',
-                  shadow: 'rgba(245,158,11,0.3)',
+                  gradient: 'bg-gray-50 hover:bg-gray-100 text-gray-700 border-gray-200',
                   actionName: 'profile',
                 },
               ].map((action, index) => (
                 <button
                   key={index}
                   onClick={() => onNavigate && onNavigate(action.actionName)}
-                  className={`btn-3d p-5 sm:p-6 rounded-2xl bg-gradient-to-br ${action.gradient} text-white font-bold text-xs sm:text-sm
-                             shadow-[0_8px_20px_${action.shadow}]
-                             flex flex-col items-center justify-center gap-3 min-h-[120px]`}
+                  className={`p-5 sm:p-6 font-bold text-xs sm:text-sm flex flex-col items-center justify-center gap-3 min-h-[120px]
+                             ${
+                               action.actionName === 'register' ? 'btn-3d-primary' : 
+                               action.actionName === 'attendance' ? 'btn-3d-success' : 
+                               action.actionName === 'train' ? 'btn-3d-secondary' : 
+                               'btn-3d-secondary'
+                             }`}
                 >
-                  <span className="text-3xl bg-white/20 p-3 rounded-full backdrop-blur-sm">
+                  <span className="text-3xl bg-white p-3 rounded-xl shadow-sm">
                     {action.icon}
                   </span>
                   <span className="text-center tracking-wide">

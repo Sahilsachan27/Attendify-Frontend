@@ -1,23 +1,20 @@
 import React, { useState } from 'react'
-import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar'
 import StudentHome from './StudentHome'
 import MarkAttendance from './MarkAttendance'
 import MyAttendance from './MyAttendance'
 import StudentProfile from './StudentProfile'
 import Instructions from './Instructions'
-import '../Admin/ProSidebarStyles.css'
 
 function StudentDashboard({ user, onLogout }) {
   const [activeTab, setActiveTab] = useState('home')
-  const [collapsed, setCollapsed] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const tabs = {
-    home: { icon: '🏠', label: 'Dashboard' },
-    mark: { icon: '📸', label: 'Mark Attendance' },
-    attendance: { icon: '📝', label: 'My Attendance' },
-    profile: { icon: '👤', label: 'My Profile' },
-    instructions: { icon: 'ℹ️', label: 'Instructions' },
+    home: { icon: 'home', label: 'Dashboard' },
+    mark: { icon: 'photo_camera', label: 'Mark Attendance' },
+    attendance: { icon: 'event_note', label: 'My Attendance' },
+    profile: { icon: 'person', label: 'My Profile' },
+    instructions: { icon: 'info', label: 'Instructions' },
   }
 
   const handleTabClick = (key) => {
@@ -27,235 +24,161 @@ function StudentDashboard({ user, onLogout }) {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'home':
-        return <StudentHome user={user} />
-      case 'mark':
-        return <MarkAttendance user={user} />
-      case 'attendance':
-        return <MyAttendance user={user} />
-      case 'profile':
-        return <StudentProfile user={user} />
-      case 'instructions':
-        return <Instructions />
-      default:
-        return <StudentHome user={user} />
+      case 'home': return <StudentHome user={user} />
+      case 'mark': return <MarkAttendance user={user} />
+      case 'attendance': return <MyAttendance user={user} />
+      case 'profile': return <StudentProfile user={user} />
+      case 'instructions': return <Instructions />
+      default: return <StudentHome user={user} />
     }
   }
 
-  // Student icon positioning config (edit these values to control placement)
-  const iconConfig = {
-    align: 'center', // 'left' | 'center' | 'right'
-    size: 38, // px (auto scales on retina)
-    offsetX: 4, // px (positive = move right, negative = move left)
-    offsetY: 0, // px (positive = move down, negative = move up)
-  }
-
-  const alignClass =
-    iconConfig.align === 'center'
-      ? 'justify-center'
-      : iconConfig.align === 'right'
-        ? 'justify-end'
-        : 'justify-start'
-
-  // Calculate sidebar width based on collapsed state
-  const sidebarWidth = collapsed ? 70 : 260
-
   return (
-    <div className="flex h-[100dvh] relative overflow-hidden text-gray-900 bg-transparent font-sans">
-      {/* Desktop Sidebar (hidden on mobile) */}
-      <div className="hidden lg:block relative z-30">
-        <Sidebar
-          collapsed={collapsed}
-          backgroundColor="transparent"
-          width="260px"
-          collapsedWidth="70px"
-          className="h-screen border-r border-white/40 glass-dark"
-        >
-          {/* Sidebar Header */}
-          <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
-            {collapsed ? (
-              <div className="flex items-center justify-center w-full">
-                <button
-                  type="button"
-                  onClick={() => setCollapsed(false)}
-                  className="rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white text-lg shadow-sm hover:scale-105 transition-transform w-10 h-10"
-                  title="Open sidebar"
-                >
-                  🎓
-                </button>
-              </div>
-            ) : (
-              <h2 className="text-lg font-bold bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                ✨ Attendify Student
-              </h2>
-            )}
+    <div className="flex h-[100dvh] relative overflow-hidden text-gray-900 bg-[#f4f7fb] font-sans selection:bg-blue-500/10">
 
-            {/* controls */}
-            {!collapsed && (
+      {/* ── Desktop Sidebar ── */}
+      <aside className="hidden lg:flex flex-col h-screen p-6 fixed left-0 top-0 z-40 bg-[#f0f4f8]/90 backdrop-blur-2xl w-72 border-r border-[#e2e8f0]/80 shadow-[20px_0_60px_-15px_rgba(0,0,0,0.03)] font-sans antialiased tracking-tight">
+
+        {/* Profile Chip */}
+        <div className="mb-6 px-2">
+          <div className="p-4 rounded-3xl bg-white/60 shadow-sm border border-white/50 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-emerald-600 shadow-md border-2 border-white flex items-center justify-center text-white font-bold text-lg">
+              {user?.name?.charAt(0) || 'S'}
+            </div>
+            <div className="flex flex-col overflow-hidden">
+              <span className="text-sm font-semibold truncate text-[#2d3338]">{user?.name || 'Student'}</span>
+              <span className="text-[11px] text-[#596065] truncate uppercase tracking-widest font-bold">Student Portal</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 space-y-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {Object.entries(tabs).map(([key, { icon, label }]) => {
+            const isActive = activeTab === key
+            return (
               <button
-                onClick={() => setCollapsed(true)}
-                className="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all text-white text-sm"
-                title="Collapse"
+                key={key}
+                onClick={() => handleTabClick(key)}
+                className={`w-full text-left px-4 py-3.5 flex items-center gap-4 transition-all duration-300 active:scale-95 ease-out group rounded-2xl ${
+                  isActive
+                    ? 'bg-white text-emerald-700 font-extrabold shadow-md border border-white/80'
+                    : 'text-slate-500 hover:text-slate-800 hover:bg-white/50 hover:shadow-sm font-semibold'
+                }`}
               >
-                ←
-              </button>
-            )}
-          </div>
-
-          <div className="p-4 flex flex-col gap-2">
-            <Menu
-              menuItemStyles={{
-                button: ({ active }) => ({
-                  backgroundColor: 'transparent',
-                  color: 'white',
-                  padding: '10px 12px',
-                  margin: '4px 10px',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  transition: 'all 0.2s ease',
-                  '&:hover': {
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    transform: 'translateX(4px)',
-                  },
-                }),
-              }}
-            >
-              {Object.entries(tabs).map(([key, { icon, label }]) => (
-                <MenuItem
-                  key={key}
-                  icon={
-                    <span
-                      className={`text-xl transition-transform ${activeTab === key ? 'scale-110 drop-shadow-md' : 'opacity-80'}`}
-                    >
-                      {icon}
-                    </span>
-                  }
-                  active={activeTab === key}
-                  onClick={() => handleTabClick(key)}
-                  style={
-                    activeTab === key
-                      ? {
-                          background:
-                            'linear-gradient(90deg, rgba(16, 185, 129, 0.15), transparent)',
-                        }
-                      : {}
-                  }
+                <span
+                  className={`material-symbols-outlined transition-colors ${isActive ? 'text-emerald-600' : 'group-hover:text-slate-700'}`}
+                  style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
                 >
-                  {!collapsed && <span className="tracking-wide">{label}</span>}
-                </MenuItem>
-              ))}
-            </Menu>
-          </div>
+                  {icon}
+                </span>
+                <span className="text-[15px]">{label}</span>
+              </button>
+            )
+          })}
+        </nav>
 
-          <div className="absolute bottom-6 left-0 right-0 px-4">
-            <button
-              onClick={onLogout}
-              className="w-full px-4 py-3 text-sm rounded-xl bg-gradient-to-r from-red-500 to-rose-600 font-bold 
-                         shadow-[0_8px_20px_rgba(225,29,72,0.3)] hover:shadow-[0_8px_25px_rgba(225,29,72,0.5)] 
-                         hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 text-white border border-red-400"
-            >
-              <span className="text-lg drop-shadow-sm">🚪</span>
-              {!collapsed && (
-                <span className="tracking-wide text-base">Sign Out</span>
-              )}
-            </button>
-          </div>
-        </Sidebar>
-      </div>
+        {/* Logout */}
+        <div className="mt-auto pt-6">
+          <button
+            onClick={onLogout}
+            className="w-full py-4 px-6 rounded-2xl bg-red-50 text-red-600 font-bold shadow-sm border border-red-100/50 flex items-center justify-center gap-3 hover:bg-red-100 active:scale-95 transition-all group"
+          >
+            <span className="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform">logout</span>
+            Sign Out
+          </button>
+        </div>
+      </aside>
 
-      {/* Mobile Fullscreen Menu (triggered by avatar) */}
+      {/* ── Mobile Fullscreen Menu ── */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 flex flex-col backdrop-blur-xl bg-black/40">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-white/20 bg-white/80 backdrop-blur-md">
-            <div className="flex items-center gap-2 text-xs sm:text-sm">
-              <span className="text-xl sm:text-2xl drop-shadow-sm">👨‍🎓</span>
-              <span className="font-black text-lg text-gray-900 tracking-tight">
-                Attendify Student
-              </span>
+        <div className="fixed inset-0 z-50 flex flex-col bg-[#f4f7fb] animate-fade-in">
+          <div className="flex items-center justify-between px-6 py-4 bg-[#f0f4f8]/90 backdrop-blur-xl border-b border-[#e2e8f0]/80">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-black text-sm">
+                {user?.name?.charAt(0) || 'S'}
+              </div>
+              <span className="font-black text-lg text-gray-900 tracking-tight">Student Portal</span>
             </div>
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-xl transition-colors shadow-sm"
-              aria-label="Close menu"
+              className="w-9 h-9 rounded-full bg-white/80 hover:bg-white flex items-center justify-center text-gray-500 shadow-sm border border-gray-100 transition-colors"
             >
-              ✕
+              <span className="material-symbols-outlined text-base">close</span>
             </button>
           </div>
-          <nav className="flex-1 flex flex-col justify-center items-center gap-4 px-4 overflow-y-auto w-full max-w-sm mx-auto">
+          <nav className="flex-1 flex flex-col justify-center gap-2 px-6 overflow-y-auto">
             {Object.entries(tabs).map(([key, { icon, label }]) => (
               <button
                 key={key}
                 onClick={() => handleTabClick(key)}
-                className={`w-full py-4 px-6 rounded-2xl text-lg font-bold flex items-center gap-4 shadow-sm transition-all
-                  ${
-                    activeTab === key
-                      ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-[0_8px_20px_rgba(16,185,129,0.3)] scale-105'
-                      : 'bg-white/90 text-gray-800 hover:bg-white'
-                  }
-                `}
+                className={`w-full py-4 px-6 rounded-2xl text-base font-bold flex items-center gap-4 shadow-sm transition-all ${
+                  activeTab === key
+                    ? 'bg-white text-emerald-700 shadow-md border border-white/80'
+                    : 'bg-white/60 text-gray-600 hover:bg-white border border-white/40'
+                }`}
               >
-                <span className="text-2xl">{icon}</span>
+                <span
+                  className={`material-symbols-outlined ${activeTab === key ? 'text-emerald-600' : 'text-gray-400'}`}
+                  style={{ fontVariationSettings: activeTab === key ? "'FILL' 1" : "'FILL' 0" }}
+                >
+                  {icon}
+                </span>
                 <span>{label}</span>
               </button>
             ))}
             <button
               onClick={onLogout}
-              className="w-full py-4 px-6 rounded-2xl text-lg font-bold flex items-center gap-4 mt-8 bg-gradient-to-r from-rose-500 to-pink-600 text-white shadow-[0_8px_20px_rgba(244,63,94,0.3)] hover:scale-105 transition-all"
+              className="w-full py-4 px-6 rounded-2xl text-base font-bold flex items-center gap-4 mt-4 bg-red-50 text-red-600 border border-red-100 hover:bg-red-100 active:scale-95 transition-all"
             >
-              <span className="text-2xl">🚪</span>
+              <span className="material-symbols-outlined">logout</span>
               <span>Sign Out</span>
             </button>
           </nav>
         </div>
       )}
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col relative w-full lg:w-auto h-[100dvh] min-w-0">
-        <div className="flex-1 overflow-y-auto">
-          <header className="h-16 lg:h-20 glass border-b border-white/40 sticky top-0 z-20 flex items-center justify-between px-4 sm:px-8 mb-4 lg:mb-8">
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="flex items-center gap-2 text-xs sm:text-sm">
-                <span className="text-xl sm:text-2xl hidden sm:inline drop-shadow-sm">
-                  👨‍🎓
-                </span>
-                <span className="text-gray-500 hidden sm:inline font-bold uppercase tracking-widest text-[10px]">
-                  Student
-                </span>
-                <span className="text-gray-300 hidden sm:inline">›</span>
-                <span className="text-gray-900 font-black tracking-tight text-base sm:text-xl">
-                  {tabs[activeTab].label}
-                </span>
-              </div>
+      {/* ── Main Content ── */}
+      <div className="flex-1 flex flex-col overflow-x-hidden relative z-10 w-full lg:ml-72 bg-[#f4f7fb]">
+        {/* Top Nav */}
+        <header className="flex items-center justify-between px-6 lg:px-8 py-4 sticky top-0 z-30 bg-[#f4f7fb]/80 backdrop-blur-md bg-gradient-to-b from-[#f0f4f8] to-transparent font-sans">
+          <div className="flex items-center gap-4">
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              className="lg:hidden w-10 h-10 rounded-xl bg-white/70 hover:bg-white border border-white/60 flex items-center justify-center shadow-sm transition-all"
+            >
+              <span className="material-symbols-outlined text-gray-600">menu</span>
+            </button>
+            <div className="flex items-center gap-2">
+              <span className="text-gray-400 text-sm font-medium hidden sm:inline">Student</span>
+              <span className="text-gray-300 hidden sm:inline">›</span>
+              <span className="text-gray-900 font-black tracking-tight text-lg">{tabs[activeTab].label}</span>
             </div>
+          </div>
 
-            {/* Profile Dropdown Area & Mobile Logout */}
-            <div className="flex items-center gap-3">
-              <div
-                className="flex items-center gap-3 px-2 py-1.5 sm:px-3 sm:py-2 rounded-2xl bg-white/50 border border-white/60 hover:bg-white hover:shadow-md transition-all cursor-pointer backdrop-blur-md"
-                onClick={() => setMobileMenuOpen(true)}
-              >
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-black text-sm sm:text-base shadow-inner border border-white/20">
-                  {user.name.charAt(0)}
-                </div>
-                <div className="hidden sm:flex flex-col">
-                  <span className="text-sm font-black text-gray-800 tracking-tight leading-tight">
-                    {user.name}
-                  </span>
-                  <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest leading-tight">
-                    Student
-                  </span>
-                </div>
-              </div>
+          {/* Profile chip */}
+          <div
+            className="flex items-center gap-3 px-3 py-2 rounded-2xl bg-white/60 border border-white/60 hover:bg-white hover:shadow-md transition-all cursor-pointer backdrop-blur-md"
+            onClick={() => setMobileMenuOpen(true)}
+          >
+            <div className="w-8 h-8 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-black text-sm shadow-sm">
+              {user?.name?.charAt(0) || 'S'}
             </div>
-          </header>
+            <div className="hidden sm:flex flex-col">
+              <span className="text-sm font-black text-gray-800 tracking-tight leading-tight">{user?.name}</span>
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Student</span>
+            </div>
+          </div>
+        </header>
 
-          <main className="flex-1 px-4 sm:px-8 pb-32 lg:pb-12 max-w-7xl mx-auto w-full transition-all duration-300">
-            {renderContent()}
-          </main>
-        </div>
+        {/* Page Content */}
+        <main className="flex-1 overflow-y-auto px-4 sm:px-8 pb-12 max-w-7xl mx-auto w-full">
+          {renderContent()}
+        </main>
       </div>
     </div>
   )
 }
+
 export default StudentDashboard

@@ -171,8 +171,8 @@ function MarkAttendance({ user }) {
   }
 
   return (
-    <div className="max-w-4xl mx-auto animate-fade-in p-2 sm:p-4 pb-12">
-      <div className="card-3d p-3 sm:p-8">
+    <div className="max-w-4xl mx-auto animate-fade-in p-2 sm:p-4 pb-12 py-6">
+      <div className="card-3d-modern p-4 sm:p-8">
         {/* Header & Camera Toggle Header */}
         <div className="flex justify-between items-center mb-3 sm:mb-6 border-b border-gray-100 pb-3 sm:pb-6">
           <div className="flex flex-col">
@@ -205,7 +205,7 @@ function MarkAttendance({ user }) {
             <button
               onClick={toggleCamera}
               disabled={loading}
-              className={`btn-3d px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl font-bold uppercase tracking-widest text-[10px] sm:text-xs transition-all text-white shadow-md flex items-center gap-1.5 ${cameraActive ? 'bg-gradient-to-r from-rose-500 to-red-600' : 'bg-gradient-to-r from-indigo-500 to-purple-600'} disabled:opacity-50`}
+              className={`btn-3d-primary px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl font-bold uppercase tracking-widest text-[10px] sm:text-xs transition-all flex items-center gap-1.5 ${cameraActive ? 'bg-red-500 hover:bg-red-600' : ''} disabled:opacity-50`}
             >
               {cameraActive ? '📷 Close' : '📸 Activate'}
             </button>
@@ -291,14 +291,14 @@ function MarkAttendance({ user }) {
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="text-center text-white px-4 w-full flex flex-col items-center justify-center h-full">
-              <div className="w-12 h-12 sm:w-20 sm:h-20 bg-gray-800 rounded-full flex items-center justify-center text-2xl sm:text-4xl mb-2 sm:mb-4 shadow-inner border border-gray-700">
+            <div className="text-center text-gray-700 px-4 w-full flex flex-col items-center justify-center h-full bg-[#f0f4f8]">
+              <div className="w-12 h-12 sm:w-20 sm:h-20 bg-gray-200 rounded-full flex items-center justify-center text-2xl sm:text-4xl mb-2 sm:mb-4 shadow-sm">
                 📷
               </div>
-              <h3 className="text-sm sm:text-lg font-black tracking-tight mb-1 text-gray-300">
+              <h3 className="text-sm sm:text-lg font-black tracking-tight mb-1 text-gray-500">
                 Camera Inactive
               </h3>
-              <p className="text-[9px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest">
+              <p className="text-[9px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest">
                 Ready for capture
               </p>
             </div>
@@ -358,7 +358,7 @@ function MarkAttendance({ user }) {
           {!location ? (
             <button
               onClick={getLocation}
-              className="btn-3d w-full px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl font-black uppercase tracking-widest text-xs sm:text-sm shadow-md transition-all disabled:opacity-50"
+              className="btn-3d-primary w-full px-4 py-3 sm:px-6 sm:py-4 rounded-xl font-black uppercase tracking-widest text-xs sm:text-sm disabled:opacity-50"
               disabled={loading}
             >
               📍 Get Location
@@ -368,7 +368,7 @@ function MarkAttendance({ user }) {
               <button
                 onClick={() => markAttendance(fileImage)}
                 disabled={loading || !location || (!cameraActive && !fileImage)}
-                className="btn-3d flex-1 px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl font-black uppercase tracking-widest text-[10px] sm:text-sm shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="btn-3d-success flex-1 px-4 py-3 sm:px-6 sm:py-4 rounded-xl font-black uppercase tracking-widest text-[10px] sm:text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>
@@ -383,7 +383,7 @@ function MarkAttendance({ user }) {
               <button
                 onClick={getLocation}
                 disabled={loading}
-                className="btn-3d px-3 py-3 sm:px-6 sm:py-4 bg-white text-gray-700 rounded-xl font-black uppercase tracking-widest text-xs border-2 border-gray-200 hover:border-indigo-300 hover:text-indigo-600 transition-all shadow-sm disabled:opacity-50 flex items-center justify-center whitespace-nowrap"
+                className="btn-3d-secondary px-3 py-3 sm:px-6 sm:py-4 rounded-xl font-black uppercase tracking-widest text-xs disabled:opacity-50 flex items-center justify-center whitespace-nowrap"
               >
                 🔄 <span className="hidden sm:inline ml-1">Refresh</span>
               </button>
@@ -411,12 +411,11 @@ function MarkAttendance({ user }) {
         )}
 
         {/* Quick Tips for Success */}
-        <div className="glass bg-indigo-50/50 border border-indigo-100 rounded-2xl p-4 sm:p-6 relative overflow-hidden mt-3 sm:mt-6">
-          <div className="absolute -right-6 -top-6 w-24 h-24 bg-indigo-200 rounded-full opacity-20 blur-2xl"></div>
-          <h3 className="text-sm font-black text-indigo-900 mb-4 flex items-center gap-2 tracking-tight">
+        <div className="bg-blue-50/60 border border-blue-100 rounded-2xl p-4 sm:p-6 mt-3 sm:mt-6">
+          <h3 className="text-sm font-black text-blue-900 mb-4 flex items-center gap-2 tracking-tight">
             💡 Quick Tips for Success
           </h3>
-          <div className="grid grid-cols-2 gap-3 text-xs font-bold text-indigo-800/80">
+          <div className="grid grid-cols-2 gap-3 text-xs font-bold text-blue-800/80">
             <div className="flex items-center gap-2 bg-white/50 p-2 rounded-lg border border-indigo-50/50">
               <span className="w-5 h-5 rounded-full bg-indigo-100 flex items-center justify-center text-[10px] text-indigo-600">
                 1

@@ -1,127 +1,239 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthModal from '../Auth/AuthModal'
-import './LandingPage.css'
-import HeroSection from './HeroSection'
+
+// ─── Design tokens (Ethereal Professionalism - Stitch MCP) ───────────────────
+const GRAD = 'linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7)'
+const NAV_SHADOW =
+  '0 1px 40px -8px rgba(99,102,241,0.12), 0 1px 8px -2px rgba(0,0,0,0.04)'
+
+const features = [
+  {
+    icon: '👤',
+    title: 'Face Authentication',
+    desc: 'Advanced AI-powered face recognition using DeepFace ArcFace technology for accurate real-time identification.',
+    bullets: [
+      'Multiple angle capture',
+      'High accuracy matching',
+      'Anti-spoofing detection',
+    ],
+  },
+  {
+    icon: '📍',
+    title: 'Geofencing Security',
+    desc: 'Location-based verification ensures students are physically within campus boundaries when marking attendance.',
+    bullets: [
+      'Real-time location tracking',
+      'Customizable radius',
+      'Prevents remote proxy',
+    ],
+  },
+  {
+    icon: '🔒',
+    title: 'Zero Proxy Attendance',
+    desc: 'Dual verification combining face recognition and location makes proxy attendance impossible.',
+    bullets: [
+      'One attendance per session',
+      'Face + Location match',
+      'Tamper-proof records',
+    ],
+  },
+  {
+    icon: '⚡',
+    title: 'Instant Processing',
+    desc: 'Lightning-fast attendance marking with real-time face recognition and immediate database updates.',
+    bullets: [
+      'Under 3 seconds verification',
+      'Live camera feed',
+      'Instant confirmation',
+    ],
+  },
+  {
+    icon: '📊',
+    title: 'Admin Dashboard',
+    desc: 'Comprehensive admin panel for managing students, viewing reports, and monitoring attendance patterns.',
+    bullets: [
+      'Real-time reports',
+      'Student management',
+      'Attendance analytics',
+    ],
+  },
+  {
+    icon: '☁️',
+    title: 'Cloud-Based Storage',
+    desc: 'Secure MongoDB Atlas cloud storage ensures data safety, scalability, and accessibility from anywhere.',
+    bullets: ['Encrypted data', 'Auto backups', '99.9% uptime'],
+  },
+]
+
+const howItWorks = [
+  {
+    step: 1,
+    icon: '📝',
+    title: 'Register',
+    desc: 'Create your account with basic details and capture multiple face images from different angles',
+  },
+  {
+    step: 2,
+    icon: '🤖',
+    title: 'AI Training',
+    desc: 'System trains AI model with your face data using advanced machine learning algorithms',
+  },
+  {
+    step: 3,
+    icon: '📸',
+    title: 'Scan Face',
+    desc: 'During attendance, scan your face live with webcam for instant authentication',
+  },
+  {
+    step: 4,
+    icon: '✅',
+    title: 'Verified!',
+    desc: 'Attendance marked after successful face match and location verification',
+  },
+]
+
+const security = [
+  {
+    icon: '🎭',
+    title: 'Face Authentication',
+    desc: 'Live face detection prevents photo/video spoofing',
+  },
+  {
+    icon: '🌍',
+    title: 'GPS Verification',
+    desc: 'Real-time location matching with campus boundaries',
+  },
+  {
+    icon: '⏱️',
+    title: 'Time-Based Sessions',
+    desc: 'One attendance per session prevents duplicates',
+  },
+  {
+    icon: '🔐',
+    title: 'Encrypted Storage',
+    desc: 'All data encrypted at rest and in transit',
+  },
+  {
+    icon: '📱',
+    title: 'Device Tracking',
+    desc: 'Monitor suspicious multiple device logins',
+  },
+  {
+    icon: '🚨',
+    title: 'Admin Alerts',
+    desc: 'Real-time notifications for anomalies',
+  },
+]
+
+const navLinks = [
+  { label: 'Home', href: '#home' },
+  { label: 'About', href: '#features' },
+  { label: 'Contact', href: '#contact' },
+]
 
 function LandingPage() {
   const navigate = useNavigate()
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [showAppModal, setShowAppModal] = useState(false) // ✅ NEW STATE
-
-  const navLinks = [
-    { label: 'Home', href: '#home' },
-    { label: 'About', href: '#features' },
-    { label: 'Contact', href: '#contact' },
-  ]
+  const [showAppModal, setShowAppModal] = useState(false)
 
   const handleLogin = (userData) => {
     localStorage.setItem('user', JSON.stringify(userData))
     navigate(userData.role === 'admin' ? '/admin' : '/student')
   }
 
-  // ✅ NEW: Direct APK download handler
   const handleDownloadApp = () => {
-    setShowAppModal(false) // Close modal first
-
-    // Create temporary download link
+    setShowAppModal(false)
     const link = document.createElement('a')
-    link.href = '/Attendifyy.apk' // ✅ Direct path from public folder
+    link.href = '/Attendifyy.apk'
     link.download = 'Attendifyy.apk'
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
   }
 
+  const scrollTo = (href) => {
+    setMobileMenuOpen(false)
+    if (href === '#home') window.scrollTo({ top: 0, behavior: 'smooth' })
+    else
+      document
+        .getElementById(href.replace('#', ''))
+        ?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
-    <div className="landing-page">
-      {/* Top Navbar - enhanced */}
-      <header className="landing-navbar w-full bg-white/80 backdrop-blur-lg shadow-sm fixed top-0 left-0 z-40">
-        <div className="navbar-inner flex items-center justify-between px-4 py-2 md:px-8">
-          {/* Logo + Brand Name */}
-          <div className="flex items-center gap-1 min-w-[180px]">
+    <div className="font-sans antialiased text-gray-900 bg-white overflow-x-hidden">
+      {/* ── NAVBAR ───────────────────────────────────────────────────────────── */}
+      <header
+        className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-xl"
+        style={{ boxShadow: NAV_SHADOW }}
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-5 py-3 md:px-8">
+          {/* Logo */}
+          <div
+            className="flex items-center gap-1.5 cursor-pointer"
+            onClick={() => navigate('/')}
+          >
             <img
               src="/attendifyy.png"
-              alt="Attendifyy"
-              onClick={() => navigate('/')}
-              style={{
-                height: '38px',
-                width: 'auto',
-                cursor: 'pointer',
-                objectFit: 'contain',
-                filter: 'drop-shadow(0 2px 12px rgba(99,102,241,0.35))',
-              }}
+              alt="Attendify"
+              className="h-9 w-auto"
+              style={{ filter: 'drop-shadow(0 2px 8px rgba(99,102,241,0.3))' }}
             />
             <span
-              onClick={() => navigate('/')}
+              className="text-2xl font-black tracking-tight"
               style={{
-                fontWeight: 900,
-                fontSize: '28px',
-                letterSpacing: '-1px',
-                fontFamily: 'Poppins, Inter, sans-serif',
-                cursor: 'pointer',
-                background:
-                  'linear-gradient(135deg, #f59e0b, #ef4444, #6366f1)',
+                background: GRAD,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                textShadow: `
-      0 2px 4px rgba(0,0,0,0.15),
-      0 6px 18px rgba(99,102,241,0.25)
-    `,
-                filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.2))',
               }}
             >
               ATTENDIFY
             </span>
           </div>
-          {/* Desktop nav links */}
-          <nav className="nav-links hidden md:flex gap-8 font-semibold text-gray-700">
-            {navLinks.map((link) => (
+
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex gap-8">
+            {navLinks.map((l) => (
               <a
-                key={link.label}
-                href={link.href}
-                className="hover:text-primary-600 transition-colors"
+                key={l.label}
+                href={l.href}
                 onClick={(e) => {
                   e.preventDefault()
-                  setMobileMenuOpen(false)
-                  if (link.href === '#home')
-                    window.scrollTo({ top: 0, behavior: 'smooth' })
-                  else
-                    document
-                      .getElementById(link.href.replace('#', ''))
-                      .scrollIntoView({ behavior: 'smooth' })
+                  scrollTo(l.href)
                 }}
+                className="text-sm font-semibold text-gray-600 hover:text-indigo-600 transition-colors tracking-wide"
               >
-                {link.label}
+                {l.label}
               </a>
             ))}
           </nav>
-          {/* Desktop actions */}
-          <div className="nav-actions hidden md:flex gap-3">
+
+          {/* Desktop Buttons */}
+          <div className="hidden md:flex gap-3">
             <button
-              className="btn-3d px-6 py-2.5 rounded-xl font-bold bg-white text-indigo-600 shadow-sm border border-gray-100 hover:text-indigo-700 uppercase tracking-widest text-xs"
               onClick={() => navigate('/login')}
+              className="btn-3d-secondary px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-widest"
             >
               Login
             </button>
             <button
-              className="btn-3d px-6 py-2.5 rounded-xl font-bold bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md hover:shadow-lg uppercase tracking-widest text-xs"
               onClick={() => navigate('/register')}
+              className="btn-3d-primary px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-widest"
             >
               Register
             </button>
           </div>
-          {/* Mobile hamburger */}
+
+          {/* Mobile Hamburger */}
           <button
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200"
+            className="md:hidden w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
             onClick={() => setMobileMenuOpen(true)}
             aria-label="Open menu"
-            style={{ zIndex: 51 }}
           >
-            {/* Simple hamburger icon */}
             <svg
-              className="w-7 h-7"
+              className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -137,84 +249,58 @@ function LandingPage() {
         </div>
       </header>
 
-      {/* Mobile Menu - Tailwind Only */}
+      {/* Mobile Menu */}
       {mobileMenuOpen && (
         <>
-          {/* Blurred Overlay */}
           <div
             onClick={() => setMobileMenuOpen(false)}
             className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
           />
-
-          {/* Centered Panel */}
           <div
             role="dialog"
             aria-modal="true"
-            className="fixed z-50 top-1/2 left-1/2 w-[90%] max-w-sm
-                 -translate-x-1/2 -translate-y-1/2
-                 rounded-2xl bg-white p-5 shadow-2xl
-                 animate-in zoom-in-95 duration-200"
+            className="fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[88%] max-w-sm bg-white rounded-2xl p-6 shadow-2xl"
           >
-            {/* Header */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">🎓</span>
-                <span className="font-semibold text-gray-800">Attendify</span>
-              </div>
-
+            <div className="flex items-center justify-between mb-5">
+              <span className="font-black text-indigo-600 text-lg">
+                🎓 Attendify
+              </span>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                aria-label="Close menu"
-                className="p-2 rounded-md bg-gray-100 hover:bg-gray-200 transition"
+                className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm"
               >
                 ✕
               </button>
             </div>
-
-            {/* Navigation */}
             <nav className="flex flex-col gap-3">
-              {navLinks.map((link) => (
+              {navLinks.map((l) => (
                 <a
-                  key={link.label}
-                  href={link.href}
+                  key={l.label}
+                  href={l.href}
                   onClick={(e) => {
                     e.preventDefault()
-                    setMobileMenuOpen(false)
-                    if (link.href === '#home')
-                      window.scrollTo({ top: 0, behavior: 'smooth' })
-                    else
-                      document
-                        .getElementById(link.href.replace('#', ''))
-                        ?.scrollIntoView({ behavior: 'smooth' })
+                    scrollTo(l.href)
                   }}
-                  className="w-full text-center py-3 rounded-md
-                       bg-gray-100 hover:bg-gray-200
-                       font-semibold text-gray-800 transition"
+                  className="py-3 px-4 text-center rounded-xl bg-gray-50 hover:bg-gray-100 font-semibold text-gray-700 transition-colors"
                 >
-                  {link.label}
+                  {l.label}
                 </a>
               ))}
-
               <button
                 onClick={() => {
                   setMobileMenuOpen(false)
                   navigate('/login')
                 }}
-                className="w-full py-3 rounded-md
-                     bg-gradient-to-r from-blue-500 to-indigo-600
-                     text-white font-semibold shadow-md"
+                className="btn-3d-primary w-full py-3 rounded-xl font-bold text-sm"
               >
                 Login
               </button>
-
               <button
                 onClick={() => {
                   setMobileMenuOpen(false)
                   navigate('/register')
                 }}
-                className="w-full py-3 rounded-md
-                     bg-gradient-to-r from-green-500 to-emerald-600
-                     text-white font-semibold shadow-md"
+                className="btn-3d-secondary w-full py-3 rounded-xl font-bold text-sm"
               >
                 Register
               </button>
@@ -223,327 +309,392 @@ function LandingPage() {
         </>
       )}
 
-      {/* Hero Section */}
-      <HeroSection />
+      {/* ── HERO ─────────────────────────────────────────────────────────────── */}
+      <section
+        id="home"
+        className="relative min-h-screen flex items-center justify-center pt-20 pb-24 px-5 overflow-hidden"
+        style={{
+          background:
+            'linear-gradient(150deg, #eef2ff 0%, #f5f3ff 35%, #faf5ff 65%, #ffffff 100%)',
+        }}
+      >
+        {/* Decorative blobs */}
+        <div
+          className="absolute top-16 right-[5%] w-80 h-80 rounded-full opacity-25 blur-3xl pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #a5b4fc, #818cf8)' }}
+        />
+        <div
+          className="absolute bottom-10 left-[3%] w-72 h-72 rounded-full opacity-20 blur-3xl pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #c4b5fd, #8b5cf6)' }}
+        />
+        <div
+          className="absolute top-40 left-[15%] w-48 h-48 rounded-full opacity-15 blur-2xl pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #fbcfe8, #f9a8d4)' }}
+        />
 
-      {/* Features Section */}
-      <section id="features" className="features-section">
-        <div className="section-header">
-          <h2>✨ Powerful Features</h2>
-          <p>Everything you need for smart attendance management</p>
-        </div>
-
-        <div className="features-grid">
-          <div className="feature-card">
-            <div className="feature-icon">👤</div>
-            <h3>Face Authentication</h3>
-            <p>
-              Advanced AI-powered face recognition using DeepFace ArcFace
-              technology ensures accurate student identification in real-time.
-            </p>
-            <ul className="feature-list">
-              <li>✓ Multiple angle capture</li>
-              <li>✓ High accuracy matching</li>
-              <li>✓ Anti-spoofing detection</li>
-            </ul>
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 rounded-full text-xs font-bold text-indigo-600 uppercase tracking-widest mb-6 shadow-sm border border-indigo-100/50 backdrop-blur-sm">
+            <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-pulse" />
+            AI-Powered Attendance System
           </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">📍</div>
-            <h3>Geofencing Security</h3>
-            <p>
-              Location-based verification ensures students are physically
-              present within campus boundaries when marking attendance.
-            </p>
-            <ul className="feature-list">
-              <li>✓ Real-time location tracking</li>
-              <li>✓ Customizable radius</li>
-              <li>✓ Prevents remote proxy</li>
-            </ul>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 leading-[1.08] mb-6">
+            Smart Attendance with{' '}
+            <span
+              className="block"
+              style={{
+                background: GRAD,
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              Face Recognition
+            </span>
+            & Geofencing
+          </h1>
+          <p className="text-base sm:text-lg text-gray-500 font-medium max-w-xl mx-auto mb-10 leading-relaxed">
+            Eliminate proxy attendance with dual-verification: real-time face AI
+            and GPS location, all in under 3 seconds.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={() => navigate('/register')}
+              className="btn-3d-primary px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest"
+            >
+              🚀 Get Started Free
+            </button>
+            <button
+              onClick={() => setShowAppModal(true)}
+              className="btn-3d-secondary px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest"
+            >
+              📱 Download App
+            </button>
           </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">🔒</div>
-            <h3>Zero Proxy Attendance</h3>
-            <p>
-              Dual verification system combining face recognition and location
-              ensures impossible proxy attendance scenarios.
-            </p>
-            <ul className="feature-list">
-              <li>✓ One attendance per session</li>
-              <li>✓ Face + Location match</li>
-              <li>✓ Tamper-proof records</li>
-            </ul>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">⚡</div>
-            <h3>Instant Processing</h3>
-            <p>
-              Lightning-fast attendance marking with real-time face recognition
-              processing and immediate database updates.
-            </p>
-            <ul className="feature-list">
-              <li>✓ Under 3 seconds verification</li>
-              <li>✓ Live camera feed</li>
-              <li>✓ Instant confirmation</li>
-            </ul>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">📊</div>
-            <h3>Admin Dashboard</h3>
-            <p>
-              Comprehensive admin panel for managing students, viewing reports,
-              and monitoring attendance patterns.
-            </p>
-            <ul className="feature-list">
-              <li>✓ Real-time reports</li>
-              <li>✓ Student management</li>
-              <li>✓ Attendance analytics</li>
-            </ul>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">☁️</div>
-            <h3>Cloud-Based Storage</h3>
-            <p>
-              Secure MongoDB Atlas cloud storage ensures data safety,
-              scalability, and accessibility from anywhere.
-            </p>
-            <ul className="feature-list">
-              <li>✓ Encrypted data</li>
-              <li>✓ Auto backups</li>
-              <li>✓ 99.9% uptime</li>
-            </ul>
+          {/* Trust badges */}
+          <div className="flex flex-wrap justify-center gap-4 mt-10">
+            {[
+              'Face Recognition AI',
+              'GPS Geofencing',
+              'Zero Proxy',
+              'Cloud Secured',
+            ].map((badge) => (
+              <div
+                key={badge}
+                className="flex items-center gap-1.5 text-xs font-bold text-gray-500"
+              >
+                <span className="text-emerald-500">✓</span>
+                {badge}
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="how-it-works-section">
-        <div className="section-header">
-          <h2>🔄 How It Works</h2>
-          <p>Simple 4-step process for secure attendance</p>
-        </div>
-
-        <div className="steps-container">
-          <div className="step-card">
-            <div className="step-number">1</div>
-            <div className="step-icon">📝</div>
-            <h3>Register</h3>
-            <p>
-              Create your account with basic details and capture multiple face
-              images from different angles
+      {/* ── FEATURES ─────────────────────────────────────────────────────────── */}
+      <section
+        id="features"
+        className="py-24 px-5"
+        style={{ background: '#f9f9fb' }}
+      >
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <div className="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3">
+              ✨ What We Offer
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-gray-900 mb-3">
+              Powerful Features
+            </h2>
+            <p className="text-gray-400 font-medium text-sm">
+              Everything you need for smart attendance management
             </p>
           </div>
-
-          <div className="step-arrow">→</div>
-
-          <div className="step-card">
-            <div className="step-number">3</div>
-            <div className="step-icon">📸</div>
-            <h3>Scan Face</h3>
-            <p>
-              During attendance, scan your face live with webcam for instant
-              authentication
-            </p>
-          </div>
-
-          <div className="step-arrow">→</div>
-
-          <div className="step-card">
-            <div className="step-number">2</div>
-            <div className="step-icon">🤖</div>
-            <h3>AI Training</h3>
-            <p>
-              System trains AI model with your face data using advanced machine
-              learning algorithms
-            </p>
-          </div>
-
-          <div className="step-arrow">→</div>
-
-          <div className="step-card">
-            <div className="step-number">4</div>
-            <div className="step-icon">✅</div>
-            <h3>Verified!</h3>
-            <p>
-              Attendance marked after successful face match and location
-              verification
-            </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {features.map((f) => (
+              <div
+                key={f.title}
+                className="card-3d-modern p-6 hover:-translate-y-1 transition-transform duration-200"
+              >
+                <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-indigo-50 text-2xl mb-4 shadow-sm">
+                  {f.icon}
+                </div>
+                <h3 className="text-base font-black text-gray-900 mb-2 tracking-tight">
+                  {f.title}
+                </h3>
+                <p className="text-sm text-gray-500 font-medium mb-4 leading-relaxed">
+                  {f.desc}
+                </p>
+                <ul className="space-y-1.5">
+                  {f.bullets.map((b) => (
+                    <li
+                      key={b}
+                      className="flex items-center gap-2 text-xs font-bold text-gray-600"
+                    >
+                      <span className="text-emerald-500 text-base leading-none">
+                        ✓
+                      </span>
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Security Section */}
-      <section className="security-section">
-        <div className="section-header">
-          <h2>🛡️ Security & Anti-Proxy Measures</h2>
-          <p>Multi-layered security ensures authentic attendance</p>
-        </div>
-
-        <div className="security-grid">
-          <div className="security-item">
-            <div className="security-icon">🎭</div>
-            <h4>Face Authentication</h4>
-            <p>Live face detection prevents photo/video spoofing</p>
+      {/* ── HOW IT WORKS ─────────────────────────────────────────────────────── */}
+      <section className="py-24 px-5 bg-white">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <div className="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3">
+              🔄 Simple Process
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-gray-900 mb-3">
+              How It Works
+            </h2>
+            <p className="text-gray-400 font-medium text-sm">
+              Simple 4-step process for secure attendance
+            </p>
           </div>
-          <div className="security-item">
-            <div className="security-icon">🌍</div>
-            <h4>GPS Verification</h4>
-            <p>Real-time location matching with campus boundaries</p>
-          </div>
-          <div className="security-item">
-            <div className="security-icon">⏱️</div>
-            <h4>Time-Based Sessions</h4>
-            <p>One attendance per session prevents duplicates</p>
-          </div>
-          <div className="security-item">
-            <div className="security-icon">🔐</div>
-            <h4>Encrypted Storage</h4>
-            <p>All data encrypted at rest and in transit</p>
-          </div>
-          <div className="security-item">
-            <div className="security-icon">📱</div>
-            <h4>Device Tracking</h4>
-            <p>Monitor suspicious multiple device logins</p>
-          </div>
-          <div className="security-item">
-            <div className="security-icon">🚨</div>
-            <h4>Admin Alerts</h4>
-            <p>Real-time notifications for anomalies</p>
+          <div className="flex flex-col sm:flex-row gap-4 items-center sm:items-stretch">
+            {howItWorks.map((s, idx) => (
+              <React.Fragment key={s.step}>
+                <div className="card-3d-modern p-6 flex-1 text-center">
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center font-black text-white text-sm mb-3 mx-auto shadow-sm"
+                    style={{ background: GRAD }}
+                  >
+                    {s.step}
+                  </div>
+                  <div className="text-3xl mb-3">{s.icon}</div>
+                  <h3 className="text-sm font-black text-gray-900 mb-2 tracking-tight">
+                    {s.title}
+                  </h3>
+                  <p className="text-xs text-gray-500 font-medium leading-relaxed">
+                    {s.desc}
+                  </p>
+                </div>
+                {idx < howItWorks.length - 1 && (
+                  <div className="hidden sm:flex items-center text-gray-300 text-2xl font-light self-center shrink-0">
+                    →
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="cta-section">
-        <div className="cta-content">
-          <h2>Ready to Transform Your Attendance System?</h2>
-          <p>
+      {/* ── SECURITY ─────────────────────────────────────────────────────────── */}
+      <section className="py-24 px-5" style={{ background: '#f2f4f7' }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <div className="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3">
+              🛡️ Multi-Layer Protection
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-gray-900 mb-3">
+              Security & Anti-Proxy
+            </h2>
+            <p className="text-gray-400 font-medium text-sm">
+              Multi-layered security ensures authentic attendance
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {security.map((s) => (
+              <div key={s.title} className="card-3d-modern p-5 text-center">
+                <div className="text-2xl mb-2">{s.icon}</div>
+                <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest mb-1">
+                  {s.title}
+                </h4>
+                <p className="text-xs text-gray-500 font-medium leading-relaxed">
+                  {s.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ──────────────────────────────────────────────────────────────── */}
+      <section
+        className="py-24 px-5 relative overflow-hidden"
+        style={{ background: GRAD }}
+      >
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            background:
+              'radial-gradient(circle at 70% 50%, white, transparent)',
+          }}
+        />
+        <div className="relative z-10 max-w-xl mx-auto text-center">
+          <h2 className="text-3xl sm:text-4xl font-black text-white mb-4 tracking-tight">
+            Ready to Transform Your Attendance System?
+          </h2>
+          <p className="text-white/70 font-medium text-sm mb-8">
             Join hundreds of institutions using smart face recognition
             technology
           </p>
-          <button className="btn-cta" onClick={() => navigate('/login')}>
+          <button
+            onClick={() => navigate('/login')}
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest bg-white text-indigo-700 hover:-translate-y-0.5 transition-transform"
+            style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}
+          >
             🚀 Start Free Trial
           </button>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer id="contact" className="landing-footer">
-        <div className="footer-content">
-          <div className="footer-section">
-            <h3>🎓 Attendify</h3>
-            <p>AI Smart Attendance System with Face Recognition</p>
+      {/* ── FOOTER ───────────────────────────────────────────────────────────── */}
+      <footer id="contact" className="bg-gray-900 text-white pt-16 pb-8 px-5">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-xl">🎓</span>
+              <span
+                className="font-black text-lg"
+                style={{
+                  background: GRAD,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                Attendify
+              </span>
+            </div>
+            <p className="text-gray-400 text-sm font-medium">
+              AI Smart Attendance System with Face Recognition & GPS Geofencing
+            </p>
           </div>
-          <div className="footer-section">
-            <h4>Quick Links</h4>
-            <ul>
-              <li>
-                <a href="#features">Features</a>
-              </li>
-              <li>
-                <a href="#how-it-works">How It Works</a>
-              </li>
-              <li>
-                <a href="#security">Security</a>
-              </li>
-              <li>
-                <a href="#contact">Contact</a>
-              </li>
+          <div>
+            <h4 className="font-black text-xs uppercase tracking-widest text-gray-300 mb-4">
+              Quick Links
+            </h4>
+            <ul className="space-y-2">
+              {[
+                ['Features', '#features'],
+                ['How It Works', '#home'],
+                ['Security', '#contact'],
+                ['Contact', '#contact'],
+              ].map(([label, href]) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      scrollTo(href)
+                    }}
+                    className="text-sm text-gray-400 hover:text-white font-medium transition-colors"
+                  >
+                    {label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
-          <div className="footer-section">
-            <h4>Contact</h4>
-            <p>📧 sahilsachan2727@gmail.com</p>
-            {/* Social icons row */}
-            <div className="flex gap-4 mt-3">
-              {/* GitHub */}
+          <div>
+            <h4 className="font-black text-xs uppercase tracking-widest text-gray-300 mb-4">
+              Contact
+            </h4>
+            <p className="text-gray-400 text-sm font-medium mb-4">
+              📧 sahilsachan2727@gmail.com
+            </p>
+            <div className="flex gap-4">
               <a
                 href="https://github.com/sahilsachan27"
                 target="_blank"
                 rel="noopener noreferrer"
-                title="GitHub"
-                style={{ color: '#333' }}
+                aria-label="GitHub"
               >
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M12 2C6.48 2 2 6.58 2 12.26c0 4.51 2.87 8.34 6.84 9.7.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.36-3.37-1.36-.45-1.18-1.1-1.5-1.1-1.5-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.13-4.56-5 0-1.1.38-2 .99-2.7-.1-.25-.43-1.28.09-2.67 0 0 .82-.27 2.7 1.03a9.18 9.18 0 0 1 2.46-.34c.84 0 1.69.11 2.46.34 1.88-1.3 2.7-1.03 2.7-1.03.52 1.39.19 2.42.09 2.67.62.7.99 1.6.99 2.7 0 3.88-2.34 4.74-4.57 5 .36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12.26C22 6.58 17.52 2 12 2z"
-                    fill="#333"
-                  />
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="#9ca3af"
+                  className="hover:fill-white transition-colors"
+                >
+                  <path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.51 2.87 8.34 6.84 9.7.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.36-3.37-1.36-.45-1.18-1.1-1.5-1.1-1.5-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.13-4.56-5 0-1.1.38-2 .99-2.7-.1-.25-.43-1.28.09-2.67 0 0 .82-.27 2.7 1.03a9.18 9.18 0 0 1 2.46-.34c.84 0 1.69.11 2.46.34 1.88-1.3 2.7-1.03 2.7-1.03.52 1.39.19 2.42.09 2.67.62.7.99 1.6.99 2.7 0 3.88-2.34 4.74-4.57 5 .36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12.26C22 6.58 17.52 2 12 2z" />
                 </svg>
               </a>
-              {/* Instagram */}
               <a
                 href="https://instagram.com/sahil_sachan_27"
                 target="_blank"
                 rel="noopener noreferrer"
-                title="Instagram"
-                style={{ color: '#e1306c' }}
+                aria-label="Instagram"
               >
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="group"
+                >
                   <rect
                     x="2"
                     y="2"
                     width="20"
                     height="20"
                     rx="6"
-                    stroke="#e1306c"
+                    stroke="#9ca3af"
                     strokeWidth="2"
-                    fill="none"
+                    className="group-hover:stroke-white transition-colors"
                   />
                   <circle
                     cx="12"
                     cy="12"
                     r="5"
-                    stroke="#e1306c"
+                    stroke="#9ca3af"
                     strokeWidth="2"
-                    fill="none"
+                    className="group-hover:stroke-white transition-colors"
                   />
-                  <circle cx="17" cy="7" r="1.2" fill="#e1306c" />
+                  <circle cx="17" cy="7" r="1.2" fill="#9ca3af" />
                 </svg>
               </a>
-              {/* LinkedIn */}
               <a
                 href="https://linkedin.com/in/sahil-sachan-2727"
                 target="_blank"
                 rel="noopener noreferrer"
-                title="LinkedIn"
-                style={{ color: '#0A66C2' }}
+                aria-label="LinkedIn"
               >
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="group"
+                >
                   <rect
                     x="2"
                     y="2"
                     width="20"
                     height="20"
                     rx="4"
-                    stroke="#0A66C2"
+                    stroke="#9ca3af"
                     strokeWidth="2"
-                    fill="none"
+                    className="group-hover:stroke-white transition-colors"
                   />
                   <path
                     d="M8 10v6M8 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm4 2v4m0-4a2 2 0 0 1 4 0v4"
-                    stroke="#0A66C2"
+                    stroke="#9ca3af"
                     strokeWidth="2"
                     strokeLinecap="round"
+                    className="group-hover:stroke-white transition-colors"
                   />
                 </svg>
               </a>
             </div>
           </div>
         </div>
-        <div className="footer-bottom">
-          <p>&copy; 2026 Attendify. All rights reserved.</p>
-          <p className="mt-2 font-semibold text-lg text-white">
+        <div className="border-t border-gray-800 pt-6 text-center">
+          <p className="text-gray-500 text-xs font-medium">
+            © 2026 Attendify. All rights reserved.
+          </p>
+          <p className="text-gray-400 text-sm font-semibold mt-1">
             Developed by{' '}
             <a
               href="https://sahilsachan.me"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-yellow-300 hover:text-white font-bold drop-shadow-lg"
+              className="text-indigo-400 hover:text-indigo-300 font-bold"
             >
               Sahil Sachan
             </a>
@@ -551,137 +702,87 @@ function LandingPage() {
         </div>
       </footer>
 
-      {/* Auth Modal */}
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        onLogin={handleLogin}
-      />
-
-      {/* ✅ SIMPLIFIED: Text-Only Floating Download Button with Badge */}
+      {/* ── FLOATING APP BUTTON ───────────────────────────────────────────────── */}
       <div
         onClick={() => setShowAppModal(true)}
-        className="fixed z-50 cursor-pointer group"
-        style={{
-          bottom: '32px' /* 🎛️ ADJUST: Distance from bottom (20px-80px) */,
-          right: '32px' /* 🎛️ ADJUST: Distance from right (20px-80px) */,
-        }}
+        className="fixed z-50 bottom-6 right-6 cursor-pointer group"
       >
-        {/* Animated Glow Background */}
         <div
-          className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 blur-2xl opacity-40 group-hover:opacity-70 animate-pulse transition-opacity duration-500"
-          style={{
-            width: '50px' /* 🎛️ ADJUST: Glow width */,
-            height: '40px' /* 🎛️ ADJUST: Glow height */,
-          }}
-        ></div>
-
-        {/* Text Button with Badge */}
+          className="absolute inset-0 rounded-full opacity-40 group-hover:opacity-70 animate-pulse blur-xl transition-opacity duration-500"
+          style={{ background: GRAD, width: 50, height: 40 }}
+        />
         <div className="relative group-hover:-translate-y-1 transition-transform duration-300">
-          {/* Text Shadow/Glow */}
-          <div className="absolute inset-0 blur-lg bg-gradient-to-r from-blue-500 to-purple-600 opacity-50 rounded-full"></div>
-
-          {/* Text Container */}
           <div
-            className="relative rounded-full bg-white/95 backdrop-blur-sm shadow-[0_4px_20px_rgba(99,102,241,0.3),_inset_0_1px_0_rgba(255,255,255,0.8)] border border-indigo-100 group-hover:shadow-[0_6px_28px_rgba(99,102,241,0.5)] transition-shadow"
-            style={{
-              paddingLeft:
-                '20px' /* 🎛️ ADJUST: Text padding left (16px-28px) */,
-              paddingRight:
-                '20px' /* 🎛️ ADJUST: Text padding right (16px-28px) */,
-              paddingTop: '10px' /* 🎛️ ADJUST: Text padding top (8px-14px) */,
-              paddingBottom:
-                '10px' /* 🎛️ ADJUST: Text padding bottom (8px-14px) */,
-            }}
+            className="relative rounded-full bg-white/95 backdrop-blur-sm border border-indigo-100 px-5 py-2.5"
+            style={{ boxShadow: '0 4px 20px rgba(99,102,241,0.3)' }}
           >
             <span
-              className="font-extrabold tracking-wide bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent whitespace-nowrap"
+              className="font-extrabold text-sm"
               style={{
-                fontSize: '14px' /* 🎛️ ADJUST: Text size (12px-18px) */,
+                background: GRAD,
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
               }}
             >
               Get the App
             </span>
-
-            {/* Notification Badge */}
             <div
-              className="absolute -top-2 -right-2 bg-gradient-to-br from-green-400 to-emerald-600 rounded-full flex items-center justify-center shadow-lg border-2 border-white animate-bounce"
-              style={{
-                animationDuration: '2s',
-                width: '22px' /* 🎛️ ADJUST: Badge width (20px-32px) */,
-                height: '22px' /* 🎛️ ADJUST: Badge height (20px-32px) */,
-              }}
+              className="absolute -top-2 -right-2 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-white animate-bounce"
+              style={{ animationDuration: '2s' }}
             >
-              <span
-                className="text-white font-black"
-                style={{
-                  fontSize: '11px' /* 🎛️ ADJUST: Badge icon size (10px-16px) */,
-                }}
-              >
-                ↓
-              </span>
+              <span className="text-white text-[10px] font-black">↓</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ✅ UPDATED: App Download Modal with Direct Download */}
+      {/* ── APP DOWNLOAD MODAL ────────────────────────────────────────────────── */}
       {showAppModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4">
           <div
-            className="bg-white rounded-2xl p-6 text-center shadow-2xl"
+            className="bg-white rounded-3xl p-8 text-center w-full max-w-[360px]"
             style={{
-              animation: 'fadeScale 0.3s ease-out',
-              width: '90%' /* 🎛️ ADJUST: Modal width (85%-95%) */,
-              maxWidth: '400px' /* 🎛️ ADJUST: Modal max width (320px-500px) */,
+              boxShadow: '0 30px 80px rgba(0,0,0,0.2)',
+              animation: 'fadeScale 0.25s ease-out',
             }}
           >
-            <div className="mb-3" style={{ fontSize: '64px' }}>
-              🚀
-            </div>
-
+            <div className="text-6xl mb-4">🚀</div>
             <h2
-              className="font-bold mb-2 bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500 bg-clip-text text-transparent"
+              className="text-xl font-black mb-2"
               style={{
-                fontSize: '24px' /* 🎛️ ADJUST: Modal title size (20px-28px) */,
+                background: GRAD,
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
               }}
             >
-              Install Attendifyy App
+              Install Attendify App
             </h2>
-
-            <p
-              className="text-gray-600 mb-5"
-              style={{
-                fontSize:
-                  '14px' /* 🎛️ ADJUST: Modal description size (12px-16px) */,
-              }}
-            >
-              Experience faster face recognition, smoother UI and better mobile
+            <p className="text-gray-500 text-sm font-medium mb-6">
+              Faster face recognition, smoother UI and better mobile
               performance.
             </p>
-
-            {/* ✅ UPDATED: Direct Download Button */}
             <button
               onClick={handleDownloadApp}
-              className="block w-full rounded-xl font-semibold bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg hover:scale-105 transition cursor-pointer"
-              style={{ padding: '12px 0' }}
+              className="btn-3d-primary w-full py-3.5 rounded-2xl font-black text-sm block mb-3"
             >
               📥 Download Now
             </button>
-
             <button
               onClick={() => setShowAppModal(false)}
-              className="mt-4 text-gray-500 hover:text-gray-700"
-              style={{
-                fontSize:
-                  '14px' /* 🎛️ ADJUST: "Maybe Later" text size (12px-16px) */,
-              }}
+              className="text-gray-400 hover:text-gray-600 text-sm font-semibold transition-colors"
             >
               Maybe Later
             </button>
           </div>
         </div>
       )}
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onLogin={handleLogin}
+      />
     </div>
   )
 }

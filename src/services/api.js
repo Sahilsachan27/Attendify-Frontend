@@ -38,6 +38,7 @@ export const adminAPI = {
   getStudents: () => api.get('/admin/students'),  // ✅ Removed /api prefix
   getDailyAttendance: (date) => api.get(`/admin/attendance/daily/${date}`),  // ✅ Removed /api prefix
   checkStudentId: (studentId) => api.get(`/admin/check-student-id/${studentId}`),  // ✅ NEW: Check if Student ID exists
+  deleteStudent: (studentId) => api.delete(`/admin/delete-student/${studentId}`),  // ✅ NEW: Full delete (MongoDB + Cloudinary)
 };
 
 export const studentAPI = {
