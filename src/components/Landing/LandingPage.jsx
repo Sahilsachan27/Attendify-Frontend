@@ -702,39 +702,7 @@ function LandingPage() {
         </div>
       </footer>
 
-      {/* ── FLOATING APP BUTTON ───────────────────────────────────────────────── */}
-      <div
-        onClick={() => setShowAppModal(true)}
-        className="fixed z-50 bottom-6 right-6 cursor-pointer group"
-      >
-        <div
-          className="absolute inset-0 rounded-full opacity-40 group-hover:opacity-70 animate-pulse blur-xl transition-opacity duration-500"
-          style={{ background: GRAD, width: 50, height: 40 }}
-        />
-        <div className="relative group-hover:-translate-y-1 transition-transform duration-300">
-          <div
-            className="relative rounded-full bg-white/95 backdrop-blur-sm border border-indigo-100 px-5 py-2.5"
-            style={{ boxShadow: '0 4px 20px rgba(99,102,241,0.3)' }}
-          >
-            <span
-              className="font-extrabold text-sm"
-              style={{
-                background: GRAD,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              Get the App
-            </span>
-            <div
-              className="absolute -top-2 -right-2 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-white animate-bounce"
-              style={{ animationDuration: '2s' }}
-            >
-              <span className="text-white text-[10px] font-black">↓</span>
-            </div>
-          </div>
-        </div>
-      </div>
+
 
       {/* ── APP DOWNLOAD MODAL ────────────────────────────────────────────────── */}
       {showAppModal && (
