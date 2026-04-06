@@ -650,7 +650,7 @@ function LandingPage() {
                 </svg>
               </a>
               <a
-                href="https://linkedin.com/in/sahil-sachan-2727"
+                href="https://linkedin.com/in/sahilsachan2303"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
